@@ -19,6 +19,8 @@ for (const width of [375, 768, 1440]) {
     viewportWidth: window.innerWidth,
     focusTarget: document.querySelector('a[href="#contact"]')?.getAttribute('href'),
     favicon: document.querySelector('link[rel="icon"]')?.getAttribute('href'),
+    logoSrc: document.querySelector('.brand-logo')?.getAttribute('src'),
+    logoLoaded: document.querySelector('.brand-logo')?.complete && document.querySelector('.brand-logo')?.naturalWidth > 0,
     heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position
   }));
   await page.evaluate(() => window.scrollTo(0, Math.max(window.innerHeight * .35, 1)));
@@ -38,6 +40,6 @@ for (const width of [375, 768, 1440]) {
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.transitionActive || result.railCount !== 6 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || !result.transitionActive || result.railCount !== 6 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0)) {
   process.exit(1);
 }

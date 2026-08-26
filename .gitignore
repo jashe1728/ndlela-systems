@@ -7,3 +7,5 @@
 !package-lock.json
 !tests/
 !tests/site-test.mjs
+!assets/
+!assets/ndlela-systems-primary.png

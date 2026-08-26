@@ -35,7 +35,7 @@
     header { position: sticky; top: 0; z-index: 4; background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
     .nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
     .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 760; letter-spacing: -.04em; }
-    .brand-mark { width: 34px; height: 34px; flex: 0 0 auto; }
+    .brand-logo { display: block; width: 190px; height: auto; max-width: 42vw; }
     .brand-name { font-size: 1.06rem; }
     nav { display: flex; align-items: center; gap: 26px; font-size: .89rem; color: var(--muted); }
     nav a { text-decoration: none; }
@@ -131,7 +131,7 @@
       .nav { min-height: 68px; }
       nav { display: none; }
       .nav-cta { min-height: 40px; padding: 0 13px; font-size: .78rem; }
-      .brand-name { font-size: .96rem; }
+      .brand-logo { width: 160px; max-width: 52vw; }
       .hero { padding: 64px 0 60px; min-height: auto; overflow: hidden; }
       .hero-grid { min-height: 0; position: static; display: grid; gap: 34px; }
       .scroll-rail { display: none; }
@@ -164,8 +164,7 @@
   <header>
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="Ndlela Systems home">
-        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="brandGradient" x1="0" x2="1"><stop stop-color="#24665c"/><stop offset="1" stop-color="#bd704c"/></linearGradient></defs><circle cx="10" cy="48" r="6" fill="#24665c"/><path d="M16 48h9c7 0 10-4 7-10L25 27c-3-6 1-12 8-12h8c6 0 9 3 12 8l4 7" fill="none" stroke="url(#brandGradient)" stroke-width="6" stroke-linecap="round"/><path d="M44 30c4 7 6 13 1 18-5 5-13 4-17 0" fill="none" stroke="url(#brandGradient)" stroke-width="6" stroke-linecap="round"/><path d="M49 48V18" fill="none" stroke="#bd704c" stroke-width="6" stroke-linecap="round"/><circle cx="49" cy="11" r="6" fill="#bd704c"/></svg>
-        <span class="brand-name">Ndlela Systems</span>
+        <img class="brand-logo" src="assets/ndlela-systems-primary.png" alt="Ndlela Systems">
       </a>
       <nav aria-label="Main navigation"><a href="#approach">Approach</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
       <a class="nav-cta" href="#contact">Start a conversation</a>
