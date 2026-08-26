@@ -60,12 +60,6 @@
     .path-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 24%, rgba(189,112,76,.42), transparent 25%), radial-gradient(circle at 17% 82%, rgba(36,102,92,.58), transparent 30%); }
     .path-panel::after { content: ""; position: absolute; width: 150%; height: 150%; left: -16%; top: -23%; border: 1px solid rgba(255,255,255,.19); border-radius: 48%; transform: rotate(-22deg); box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 70px rgba(255,255,255,.025); }
     .panel-label { position: absolute; left: 28px; bottom: 26px; z-index: 1; color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; }
-    .transition-bridge { height: 104px; display: grid; place-items: center; background: var(--paper); overflow: hidden; }
-    .transition-bridge svg { width: min(780px, 76%); height: 70px; overflow: visible; }
-    .transition-bridge path { fill: none; stroke: var(--green); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 6 12; opacity: .52; }
-    .transition-bridge circle { fill: var(--copper); }
-    .transition-bridge .route { stroke: var(--copper); stroke-dasharray: 420; stroke-dashoffset: 420; opacity: 1; transition: stroke-dashoffset 1.15s cubic-bezier(.22,.8,.24,1); }
-    .transition-bridge.is-visible .route { stroke-dashoffset: 0; }
     section { padding: 96px 0; }
     .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; align-items: end; margin-bottom: 42px; }
     h2 { font-size: clamp(2.3rem, 5vw, 4.4rem); }
@@ -129,10 +123,8 @@
       .step:last-child { border-bottom: 0; }
       .contact-box { padding: 28px 23px; }
       .footer-row { flex-direction: column; gap: 6px; }
-      .transition-bridge { height: 78px; }
-      .transition-bridge svg { width: 92%; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } .transition-bridge .route { stroke-dashoffset: 0; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } }
   </style>
 </head>
 <body>
