@@ -23,7 +23,9 @@ for (const width of [375, 768, 1440]) {
     logoLoaded: document.querySelector('.brand-logo')?.complete && document.querySelector('.brand-logo')?.naturalWidth > 0,
     portraitSrc: document.querySelector('.ceo-portrait')?.getAttribute('src'),
     portraitLoaded: document.querySelector('.ceo-portrait')?.complete && document.querySelector('.ceo-portrait')?.naturalWidth > 0,
-    heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position
+    heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position,
+    brandCopyVerified: ['77 dishes', '8-language', 'Dynamic order flow', 'FAQ chatbot', 'Excel pricing sheets'].every(text => document.querySelector('.brand-panels')?.textContent.includes(text)),
+    genericBrandCopy: [...document.querySelectorAll('.brand-panel p')].some(p => p.textContent.includes('Its presence is part of the practical experience'))
   }));
   await page.evaluate(() => window.scrollTo(0, Math.max(window.innerHeight * .35, 1)));
   await page.waitForTimeout(150);
@@ -48,6 +50,6 @@ for (const width of [375, 768, 1440]) {
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2 || !result.brandCopyVerified || result.genericBrandCopy)) {
   process.exit(1);
 }
