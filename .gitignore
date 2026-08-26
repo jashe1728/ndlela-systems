@@ -1,0 +1,9 @@
+# Keep the surrounding business-planning files private.
+*
+!.gitignore
+!index.html
+!favicon.svg
+!package.json
+!package-lock.json
+!tests/
+!tests/site-test.mjs

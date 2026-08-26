@@ -1,0 +1,10 @@
+{
+  "name": "ndlela-systems-site",
+  "private": true,
+  "scripts": {
+    "test": "node tests/site-test.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.55.0"
+  }
+}

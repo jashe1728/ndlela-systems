@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.">
+  <meta name="theme-color" content="#f7f5f0">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Ndlela Systems | Build the way forward">
+  <meta property="og:description" content="Practical software and automation for better business operations.">
+  <meta property="og:type" content="website">
+  <title>Ndlela Systems | Build the way forward</title>
+  <style>
+    :root {
+      --paper: #f7f5f0;
+      --paper-deep: #eceae3;
+      --ink: #16202a;
+      --muted: #647078;
+      --line: rgba(22, 32, 42, .14);
+      --green: #24665c;
+      --green-dark: #194a44;
+      --copper: #bd704c;
+      --white: #fffdf8;
+      --max: 1160px;
+      --radius: 18px;
+      --shadow: 0 18px 50px rgba(22, 32, 42, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.55; }
+    a { color: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .skip { position: absolute; left: -999px; top: 12px; background: var(--ink); color: white; padding: 10px 14px; border-radius: 8px; z-index: 5; }
+    .skip:focus { left: 12px; }
+    header { position: sticky; top: 0; z-index: 4; background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 760; letter-spacing: -.04em; }
+    .brand-mark { width: 34px; height: 34px; flex: 0 0 auto; }
+    .brand-name { font-size: 1.06rem; }
+    nav { display: flex; align-items: center; gap: 26px; font-size: .89rem; color: var(--muted); }
+    nav a { text-decoration: none; }
+    nav a:hover, nav a:focus-visible { color: var(--ink); }
+    .nav-cta, .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: .9rem; transition: transform .2s ease, background .2s ease, color .2s ease; }
+    .nav-cta, .button.primary { background: var(--ink); color: var(--white); }
+    .button.secondary { border: 1px solid var(--line); color: var(--ink); }
+    .nav-cta:hover, .button:hover { transform: translateY(-2px); }
+    .button.primary:hover { background: var(--green-dark); }
+    .hero { padding: 108px 0 92px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 76px; }
+    .eyebrow, .section-kicker { color: var(--green); text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; font-weight: 800; }
+    h1, h2, h3 { margin: 0; line-height: 1.03; letter-spacing: -.055em; }
+    h1 { max-width: 700px; margin-top: 20px; font-size: clamp(3.25rem, 7vw, 6.7rem); font-weight: 760; }
+    .hero-copy { max-width: 590px; margin: 26px 0 30px; color: var(--muted); font-size: 1.12rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-note { margin-top: 22px; color: var(--muted); font-size: .86rem; }
+    .path-panel { min-height: 420px; border-radius: 38% 18px 18px 18px; background: var(--ink); position: relative; overflow: hidden; box-shadow: var(--shadow); }
+    .path-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 24%, rgba(189,112,76,.42), transparent 25%), radial-gradient(circle at 17% 82%, rgba(36,102,92,.58), transparent 30%); }
+    .path-panel::after { content: ""; position: absolute; width: 150%; height: 150%; left: -16%; top: -23%; border: 1px solid rgba(255,255,255,.19); border-radius: 48%; transform: rotate(-22deg); box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 70px rgba(255,255,255,.025); }
+    .panel-label { position: absolute; left: 28px; bottom: 26px; z-index: 1; color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; }
+    section { padding: 96px 0; }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; align-items: end; margin-bottom: 42px; }
+    h2 { font-size: clamp(2.3rem, 5vw, 4.4rem); }
+    .section-intro { max-width: 540px; color: var(--muted); font-size: 1.05rem; }
+    .friction { background: var(--ink); color: var(--white); }
+    .friction .section-kicker { color: #a4d2c5; }
+    .friction .section-intro { color: rgba(255,255,255,.68); }
+    .friction-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.17); border: 1px solid rgba(255,255,255,.17); }
+    .friction-item { background: var(--ink); padding: 28px 24px 30px; min-height: 230px; }
+    .item-number { color: #a4d2c5; font-size: .77rem; letter-spacing: .14em; }
+    h3 { margin-top: 46px; font-size: 1.32rem; letter-spacing: -.035em; }
+    .friction-item p { color: rgba(255,255,255,.62); font-size: .92rem; }
+    .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .focus-item { display: flex; justify-content: space-between; gap: 22px; padding: 25px 0; border-top: 1px solid var(--line); }
+    .focus-item strong { font-size: 1.15rem; }
+    .focus-item span { color: var(--muted); font-size: .92rem; text-align: right; max-width: 270px; }
+    .approach { background: var(--paper-deep); }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
+    .step { padding: 28px 28px 0 0; border-right: 1px solid var(--line); margin-right: 28px; min-height: 220px; }
+    .step:last-child { border-right: 0; margin-right: 0; }
+    .step-number { font-size: 2.8rem; color: var(--copper); font-weight: 700; letter-spacing: -.08em; }
+    .step h3 { margin-top: 23px; }
+    .step p { color: var(--muted); max-width: 270px; }
+    .about-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 80px; }
+    .about-copy { max-width: 650px; font-size: 1.22rem; letter-spacing: -.02em; }
+    .about-copy p { margin-top: 0; }
+    .contact { padding-bottom: 110px; }
+    .contact-box { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: end; padding: 48px; background: var(--green-dark); color: var(--white); border-radius: var(--radius); }
+    .contact-box .section-kicker { color: #a4d2c5; }
+    .contact-box h2 { max-width: 650px; margin-top: 16px; }
+    .contact-box p { max-width: 620px; color: rgba(255,255,255,.72); }
+    .contact-links { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .contact-links a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.55); padding-bottom: 3px; }
+    footer { border-top: 1px solid var(--line); padding: 26px 0 34px; color: var(--muted); font-size: .84rem; }
+    .footer-row { display: flex; justify-content: space-between; gap: 20px; }
+    :focus-visible { outline: 3px solid var(--copper); outline-offset: 4px; }
+    @media (max-width: 820px) {
+      .hero-grid, .section-head, .about-grid { grid-template-columns: 1fr; gap: 34px; }
+      .hero { padding-top: 76px; }
+      .path-panel { min-height: 290px; }
+      .friction-grid { grid-template-columns: 1fr 1fr; }
+      .focus-grid { grid-template-columns: 1fr; }
+      .contact-box { grid-template-columns: 1fr; }
+      .contact-links { align-items: flex-start; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(calc(100% - 28px), var(--max)); }
+      .nav { min-height: 68px; }
+      nav { display: none; }
+      .nav-cta { min-height: 40px; padding: 0 13px; font-size: .78rem; }
+      .brand-name { font-size: .96rem; }
+      .hero { padding: 64px 0 60px; }
+      h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
+      section { padding: 66px 0; }
+      .friction-grid { grid-template-columns: 1fr; }
+      .friction-item { min-height: 0; padding: 22px; }
+      .friction-item h3 { margin-top: 28px; }
+      .steps { grid-template-columns: 1fr; }
+      .step { border-right: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 25px 0; min-height: 0; }
+      .step:last-child { border-bottom: 0; }
+      .contact-box { padding: 28px 23px; }
+      .footer-row { flex-direction: column; gap: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Ndlela Systems home">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="brandGradient" x1="0" x2="1"><stop stop-color="#24665c"/><stop offset="1" stop-color="#bd704c"/></linearGradient></defs><circle cx="10" cy="48" r="6" fill="#24665c"/><path d="M16 48h9c7 0 10-4 7-10L25 27c-3-6 1-12 8-12h8c6 0 9 3 12 8l4 7" fill="none" stroke="url(#brandGradient)" stroke-width="6" stroke-linecap="round"/><path d="M44 30c4 7 6 13 1 18-5 5-13 4-17 0" fill="none" stroke="url(#brandGradient)" stroke-width="6" stroke-linecap="round"/><path d="M49 48V18" fill="none" stroke="#bd704c" stroke-width="6" stroke-linecap="round"/><circle cx="49" cy="11" r="6" fill="#bd704c"/></svg>
+        <span class="brand-name">Ndlela Systems</span>
+      </a>
+      <nav aria-label="Main navigation"><a href="#approach">Approach</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
+      <a class="nav-cta" href="#contact">Start a conversation</a>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero" id="top"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Build the way forward.</h1><p class="hero-copy">Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.</p><div class="actions"><a class="button primary" href="#contact">Discuss an operational problem</a><a class="button secondary" href="#approach">See how we think</a></div><p class="hero-note">Software, automation and integration built around the work that matters.</p></div><div class="path-panel" aria-label="Abstract connected path graphic"><span class="panel-label">From friction to flow</span></div></div></section>
+    <section class="friction"><div class="wrap"><div class="section-head"><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item"><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item"><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item"><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item"><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
+    <section id="focus"><div class="wrap"><div class="section-head"><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item"><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item"><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item"><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item"><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item"><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item"><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
+    <section class="approach" id="approach"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step"><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step"><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step"><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
+    <section id="about"><div class="wrap about-grid"><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
+    <section class="contact" id="contact"><div class="wrap"><div class="contact-box"><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
+  </main>
+  <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
+</body>
+</html>
