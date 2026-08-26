@@ -25,11 +25,19 @@ for (const width of [375, 768, 1440]) {
   await page.waitForTimeout(150);
   const transitionProgress = await page.locator('.hero').evaluate(element => parseFloat(getComputedStyle(element).getPropertyValue('--hero-progress')) || 0);
   const transitionActive = width > 620 ? transitionProgress > 0 : state.heroPosition === 'static';
-  results.push({ width, ...state, transitionProgress, transitionActive, overflow: state.scrollWidth > state.viewportWidth, errors });
+  await page.locator('#friction').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(900);
+  const interaction = await page.evaluate(() => ({
+    railCount: document.querySelectorAll('.scroll-rail button').length,
+    frictionActive: document.querySelector('#friction')?.classList.contains('is-active'),
+    frictionRevealed: document.querySelector('#friction [data-reveal]')?.classList.contains('is-inview'),
+    progressWidth: parseFloat(document.querySelector('.scroll-progress span')?.style.width || '0')
+  }));
+  results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.transitionActive)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.transitionActive || result.railCount !== 6 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0)) {
   process.exit(1);
 }

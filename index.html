@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,6 +60,27 @@
     .path-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 24%, rgba(189,112,76,.42), transparent 25%), radial-gradient(circle at 17% 82%, rgba(36,102,92,.58), transparent 30%); }
     .path-panel::after { content: ""; position: absolute; width: 150%; height: 150%; left: -16%; top: -23%; border: 1px solid rgba(255,255,255,.19); border-radius: 48%; transform: rotate(-22deg); box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 70px rgba(255,255,255,.025); }
     .panel-label { position: absolute; left: 28px; bottom: 26px; z-index: 1; color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; }
+    .scroll-progress { position: fixed; top: 0; left: 0; z-index: 10; width: 100%; height: 3px; background: transparent; pointer-events: none; }
+    .scroll-progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--green), var(--copper)); transform-origin: left; }
+    .js [data-reveal] { opacity: 0; transform: translateY(34px); transition: opacity .75s ease, transform .75s cubic-bezier(.22,.8,.24,1); }
+    .js [data-reveal].is-inview { opacity: 1; transform: none; }
+    .js .friction-item[data-reveal], .js .focus-item[data-reveal], .js .step[data-reveal] { transition-delay: var(--delay, 0ms); }
+    .js .friction-item[data-reveal]:nth-child(2), .js .focus-item[data-reveal]:nth-child(2), .js .step[data-reveal]:nth-child(2) { --delay: 90ms; }
+    .js .friction-item[data-reveal]:nth-child(3), .js .focus-item[data-reveal]:nth-child(3), .js .step[data-reveal]:nth-child(3) { --delay: 180ms; }
+    .js .friction-item[data-reveal]:nth-child(4), .js .focus-item[data-reveal]:nth-child(4) { --delay: 270ms; }
+    .js .focus-item[data-reveal]:nth-child(5) { --delay: 360ms; }
+    .js .focus-item[data-reveal]:nth-child(6) { --delay: 450ms; }
+    .js section[data-section] { position: relative; }
+    .js section[data-section]::before { content: attr(data-label); position: absolute; top: 22px; right: max(28px, calc((100vw - var(--max)) / 2)); color: var(--muted); font-size: .64rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: 0; transform: translateY(-8px); transition: opacity .5s ease, transform .5s ease; pointer-events: none; }
+    .js section[data-section].is-active::before { opacity: .72; transform: none; }
+    .scroll-rail { position: fixed; top: 50%; right: 25px; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 13px; transform: translateY(-50%); }
+    .scroll-rail::before { content: ""; position: absolute; top: 8px; bottom: 8px; width: 1px; background: var(--line); z-index: -1; }
+    .scroll-rail button { width: 10px; height: 10px; padding: 0; border: 1px solid var(--muted); border-radius: 50%; background: var(--paper); cursor: pointer; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+    .scroll-rail button:hover, .scroll-rail button:focus-visible { transform: scale(1.55); }
+    .scroll-rail button.is-active { background: var(--copper); border-color: var(--copper); transform: scale(1.35); }
+    .scroll-rail button span { position: absolute; right: 22px; width: max-content; padding: 4px 8px; border-radius: 5px; background: var(--ink); color: var(--white); font-size: .65rem; opacity: 0; pointer-events: none; transform: translateX(5px); transition: opacity .2s ease, transform .2s ease; }
+    .scroll-rail button:hover span, .scroll-rail button:focus-visible span { opacity: 1; transform: none; }
+    .hero::after { content: ""; position: absolute; inset: auto 0 0; height: 150px; pointer-events: none; background: linear-gradient(transparent, var(--ink)); opacity: calc(var(--hero-progress, 0) * .14); transition: opacity .15s linear; }
     section { padding: 96px 0; }
     .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; align-items: end; margin-bottom: 42px; }
     h2 { font-size: clamp(2.3rem, 5vw, 4.4rem); }
@@ -113,6 +134,8 @@
       .brand-name { font-size: .96rem; }
       .hero { padding: 64px 0 60px; min-height: auto; overflow: hidden; }
       .hero-grid { min-height: 0; position: static; display: grid; gap: 34px; }
+      .scroll-rail { display: none; }
+      .js section[data-section]::before { display: none; }
       h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
       section { padding: 66px 0; }
       .friction-grid { grid-template-columns: 1fr; }
@@ -124,10 +147,19 @@
       .contact-box { padding: 28px 23px; }
       .footer-row { flex-direction: column; gap: 6px; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } .js [data-reveal] { opacity: 1; transform: none; } .scroll-rail { display: none; } }
   </style>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="scroll-rail" aria-label="Page sections">
+    <button type="button" data-target="top" aria-label="Home"><span>Home</span></button>
+    <button type="button" data-target="friction" aria-label="Friction"><span>Friction</span></button>
+    <button type="button" data-target="focus" aria-label="Focus areas"><span>Focus</span></button>
+    <button type="button" data-target="approach" aria-label="Approach"><span>Approach</span></button>
+    <button type="button" data-target="about" aria-label="About"><span>About</span></button>
+    <button type="button" data-target="contact" aria-label="Contact"><span>Contact</span></button>
+  </div>
   <a class="skip" href="#main">Skip to content</a>
   <header>
     <div class="wrap nav">
@@ -140,32 +172,66 @@
     </div>
   </header>
   <main id="main">
-    <section class="hero" id="top"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Build the way forward.</h1><p class="hero-copy">Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.</p><div class="actions"><a class="button primary" href="#contact">Discuss an operational problem</a><a class="button secondary" href="#approach">See how we think</a></div><p class="hero-note">Software, automation and integration built around the work that matters.</p></div><div class="path-panel" aria-label="Abstract connected path graphic"><span class="panel-label">From friction to flow</span></div></div></section>
-    <section class="friction"><div class="wrap"><div class="section-head"><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item"><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item"><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item"><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item"><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
-    <section id="focus"><div class="wrap"><div class="section-head"><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item"><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item"><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item"><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item"><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item"><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item"><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
-    <section class="approach" id="approach"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step"><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step"><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step"><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
-    <section id="about"><div class="wrap about-grid"><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
-    <section class="contact" id="contact"><div class="wrap"><div class="contact-box"><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
+    <section class="hero" id="top" data-section="top" data-label="01 / Direction"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Build the way forward.</h1><p class="hero-copy">Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.</p><div class="actions"><a class="button primary" href="#contact">Discuss an operational problem</a><a class="button secondary" href="#approach">See how we think</a></div><p class="hero-note">Software, automation and integration built around the work that matters.</p></div><div class="path-panel" aria-label="Abstract connected path graphic"><span class="panel-label">From friction to flow</span></div></div></section>
+    <section class="friction" id="friction" data-section="friction" data-label="02 / Friction"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item" data-reveal><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item" data-reveal><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item" data-reveal><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item" data-reveal><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
+    <section id="focus" data-section="focus" data-label="03 / Focus"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item" data-reveal><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item" data-reveal><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item" data-reveal><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item" data-reveal><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item" data-reveal><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item" data-reveal><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
+    <section class="approach" id="approach" data-section="approach" data-label="04 / Approach"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step" data-reveal><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step" data-reveal><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step" data-reveal><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
+    <section id="about" data-section="about" data-label="05 / About"><div class="wrap about-grid" data-reveal><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
+    <section class="contact" id="contact" data-section="contact" data-label="06 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
   <script>
-    const hero = document.querySelector('.hero');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sections = [...document.querySelectorAll('section[data-section]')];
+    const revealItems = [...document.querySelectorAll('[data-reveal]')];
+    const railButtons = [...document.querySelectorAll('.scroll-rail button')];
+    const progressBar = document.querySelector('.scroll-progress span');
+    const hero = document.querySelector('.hero');
     let ticking = false;
-    const updateHeroTransition = () => {
+
+    const setActiveSection = (id) => {
+      sections.forEach(section => section.classList.toggle('is-active', section.id === id));
+      railButtons.forEach(button => button.classList.toggle('is-active', button.dataset.target === id));
+    };
+
+    if (!reducedMotion && 'IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.target.classList.toggle('is-inview', entry.isIntersecting));
+      }, { rootMargin: '-12% 0px -18% 0px', threshold: 0.08 });
+      revealItems.forEach(item => revealObserver.observe(item));
+
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) setActiveSection(entry.target.id); });
+      }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+      sections.forEach(section => sectionObserver.observe(section));
+    } else {
+      revealItems.forEach(item => item.classList.add('is-inview'));
+      sections.forEach(section => section.classList.add('is-active'));
+      setActiveSection('top');
+    }
+
+    const updateScrollMotion = () => {
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const pageProgress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
+      if (progressBar) progressBar.style.width = `${pageProgress * 100}%`;
       if (hero && !reducedMotion && window.innerWidth > 620) {
         const range = Math.max(hero.offsetHeight - window.innerHeight, 1);
-        const progress = Math.min(Math.max(window.scrollY / range, 0), 1);
-        hero.style.setProperty('--hero-progress', progress.toFixed(3));
-        hero.style.setProperty('--hero-panel-scale', (1 - progress * .08).toFixed(3));
+        const heroProgress = Math.min(Math.max(window.scrollY / range, 0), 1);
+        hero.style.setProperty('--hero-progress', heroProgress.toFixed(3));
+        hero.style.setProperty('--hero-panel-scale', (1 - heroProgress * .08).toFixed(3));
       }
       ticking = false;
     };
+
     window.addEventListener('scroll', () => {
-      if (!ticking) { window.requestAnimationFrame(updateHeroTransition); ticking = true; }
+      if (!ticking) { window.requestAnimationFrame(updateScrollMotion); ticking = true; }
     }, { passive: true });
-    window.addEventListener('resize', updateHeroTransition);
-    updateHeroTransition();
+    window.addEventListener('resize', updateScrollMotion);
+    railButtons.forEach(button => button.addEventListener('click', () => {
+      document.getElementById(button.dataset.target)?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    }));
+    updateScrollMotion();
+    setActiveSection('top');
   </script>
 </body>
 </html>
