@@ -19,16 +19,17 @@ for (const width of [375, 768, 1440]) {
     viewportWidth: window.innerWidth,
     focusTarget: document.querySelector('a[href="#contact"]')?.getAttribute('href'),
     favicon: document.querySelector('link[rel="icon"]')?.getAttribute('href'),
-    bridge: !!document.querySelector('.transition-bridge')
+    heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position
   }));
-  await page.locator('.transition-bridge').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1300);
-  const bridgeVisible = await page.locator('.transition-bridge').evaluate(element => element.classList.contains('is-visible'));
-  results.push({ width, ...state, bridgeVisible, overflow: state.scrollWidth > state.viewportWidth, errors });
+  await page.evaluate(() => window.scrollTo(0, Math.max(window.innerHeight * .35, 1)));
+  await page.waitForTimeout(150);
+  const transitionProgress = await page.locator('.hero').evaluate(element => parseFloat(getComputedStyle(element).getPropertyValue('--hero-progress')) || 0);
+  const transitionActive = width > 620 ? transitionProgress > 0 : state.heroPosition === 'static';
+  results.push({ width, ...state, transitionProgress, transitionActive, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.bridge || !result.bridgeVisible)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.transitionActive)) {
   process.exit(1);
 }
