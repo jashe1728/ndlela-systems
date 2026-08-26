@@ -35,11 +35,17 @@ for (const width of [375, 768, 1440]) {
     frictionRevealed: document.querySelector('#friction [data-reveal]')?.classList.contains('is-inview'),
     progressWidth: parseFloat(document.querySelector('.scroll-progress span')?.style.width || '0')
   }));
-  results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, overflow: state.scrollWidth > state.viewportWidth, errors });
+  await page.locator('#brand-tab-jade').click();
+  const brandToggle = await page.evaluate(() => ({
+    selected: document.querySelector('#brand-tab-jade')?.getAttribute('aria-selected'),
+    activePanel: document.querySelector('.brand-panel.is-active')?.id,
+    hiddenPanels: document.querySelectorAll('.brand-panel[hidden]').length
+  }));
+  results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, ...brandToggle, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || !result.transitionActive || result.railCount !== 6 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2)) {
   process.exit(1);
 }

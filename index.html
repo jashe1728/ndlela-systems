@@ -105,8 +105,26 @@
     .step h3 { margin-top: 23px; }
     .step p { color: var(--muted); max-width: 270px; }
     .about-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 80px; }
-    .about-copy { max-width: 650px; font-size: 1.22rem; letter-spacing: -.02em; }
-    .about-copy p { margin-top: 0; }
+    .ceo-section { background: var(--white); }
+    .ceo-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: center; }
+    .ceo-card { min-height: 300px; padding: 32px; border-radius: 40% 18px 18px 18px; background: var(--ink); color: var(--white); position: relative; overflow: hidden; box-shadow: var(--shadow); }
+    .ceo-card::before { content: ""; position: absolute; width: 260px; height: 260px; right: -82px; top: -72px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; box-shadow: 0 0 0 26px rgba(255,255,255,.04), 0 0 0 54px rgba(255,255,255,.03); }
+    .ceo-initials { position: absolute; left: 32px; bottom: 28px; font-size: clamp(4rem, 10vw, 7rem); font-weight: 760; line-height: .8; letter-spacing: -.1em; color: var(--copper); }
+    .ceo-card-label { position: absolute; right: 25px; bottom: 27px; color: rgba(255,255,255,.68); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
+    .ceo-copy { max-width: 690px; font-size: 1.2rem; }
+    .ceo-copy h2 { margin: 13px 0 24px; }
+    .ceo-copy p { margin: 0 0 18px; color: var(--muted); }
+    .brands-section { background: var(--paper-deep); }
+    .brand-switcher { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 32px 0 22px; }
+    .brand-tab { padding: 17px 19px; border: 1px solid var(--line); border-radius: 12px; background: transparent; color: var(--ink); text-align: left; font: inherit; font-weight: 740; cursor: pointer; transition: color .25s ease, background .25s ease, border-color .25s ease, transform .25s ease; }
+    .brand-tab:hover, .brand-tab:focus-visible { transform: translateY(-2px); border-color: var(--green); }
+    .brand-tab[aria-selected="true"] { background: var(--green-dark); border-color: var(--green-dark); color: var(--white); }
+    .brand-panels { min-height: 148px; }
+    .brand-panel { display: none; grid-template-columns: auto 1fr; gap: 22px; align-items: center; padding: 27px 0; border-top: 1px solid var(--line); }
+    .brand-panel.is-active { display: grid; }
+    .brand-index { color: var(--copper); font-size: 2.3rem; font-weight: 740; letter-spacing: -.08em; }
+    .brand-panel h3 { margin: 0 0 7px; }
+    .brand-panel p { margin: 0; color: var(--muted); }
     .contact { padding-bottom: 110px; }
     .contact-box { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: end; padding: 48px; background: var(--green-dark); color: var(--white); border-radius: var(--radius); }
     .contact-box .section-kicker { color: #a4d2c5; }
@@ -118,7 +136,7 @@
     .footer-row { display: flex; justify-content: space-between; gap: 20px; }
     :focus-visible { outline: 3px solid var(--copper); outline-offset: 4px; }
     @media (max-width: 820px) {
-      .hero-grid, .section-head, .about-grid { grid-template-columns: 1fr; gap: 34px; }
+      .hero-grid, .section-head, .about-grid, .ceo-grid { grid-template-columns: 1fr; gap: 34px; }
       .hero { padding-top: 76px; }
       .path-panel { min-height: 290px; }
       .friction-grid { grid-template-columns: 1fr 1fr; }
@@ -134,6 +152,9 @@
       .brand-logo { width: 160px; max-width: 52vw; }
       .hero { padding: 64px 0 60px; min-height: auto; overflow: hidden; }
       .hero-grid { min-height: 0; position: static; display: grid; gap: 34px; }
+      .ceo-card { min-height: 230px; }
+      .brand-switcher { grid-template-columns: 1fr; gap: 8px; margin-top: 24px; }
+      .brand-panel { min-height: 150px; }
       .scroll-rail { display: none; }
       .js section[data-section]::before { display: none; }
       h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
@@ -157,6 +178,8 @@
     <button type="button" data-target="friction" aria-label="Friction"><span>Friction</span></button>
     <button type="button" data-target="focus" aria-label="Focus areas"><span>Focus</span></button>
     <button type="button" data-target="approach" aria-label="Approach"><span>Approach</span></button>
+    <button type="button" data-target="profile" aria-label="Founder and CEO"><span>Founder</span></button>
+    <button type="button" data-target="brands" aria-label="Selected brands"><span>Brands</span></button>
     <button type="button" data-target="about" aria-label="About"><span>About</span></button>
     <button type="button" data-target="contact" aria-label="Contact"><span>Contact</span></button>
   </div>
@@ -166,7 +189,7 @@
       <a class="brand" href="#top" aria-label="Ndlela Systems home">
         <img class="brand-logo" src="assets/ndlela-systems-primary.png" alt="Ndlela Systems">
       </a>
-      <nav aria-label="Main navigation"><a href="#approach">Approach</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
+      <nav aria-label="Main navigation"><a href="#approach">Approach</a><a href="#profile">Founder</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
       <a class="nav-cta" href="#contact">Start a conversation</a>
     </div>
   </header>
@@ -175,8 +198,10 @@
     <section class="friction" id="friction" data-section="friction" data-label="02 / Friction"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item" data-reveal><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item" data-reveal><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item" data-reveal><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item" data-reveal><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
     <section id="focus" data-section="focus" data-label="03 / Focus"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item" data-reveal><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item" data-reveal><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item" data-reveal><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item" data-reveal><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item" data-reveal><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item" data-reveal><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
     <section class="approach" id="approach" data-section="approach" data-label="04 / Approach"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step" data-reveal><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step" data-reveal><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step" data-reveal><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
-    <section id="about" data-section="about" data-label="05 / About"><div class="wrap about-grid" data-reveal><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
-    <section class="contact" id="contact" data-section="contact" data-label="06 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
+    <section class="ceo-section" id="profile" data-section="profile" data-label="05 / Founder"><div class="wrap ceo-grid" data-reveal><div class="ceo-card" aria-label="Shelton Fenhane, Founder and CEO"><div class="ceo-initials" aria-hidden="true">SF</div><span class="ceo-card-label">Founder &amp; CEO</span></div><div class="ceo-copy"><div class="section-kicker">The person behind the system</div><h2>Shelton Fenhane, Founder &amp; CEO.</h2><p>I am building Ndlela Systems around a simple belief: technology should make important work clearer, calmer and easier to move forward.</p><p>My role is to stay close to the problem, learn from the people doing the work and turn useful ideas into practical systems.</p></div></div></section>
+    <section class="brands-section" id="brands" data-section="brands" data-label="06 / Selected work"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Selected brand work</div><h2>Work that informs the way we build.</h2></div><p class="section-intro">These are brands I have worked with so far. Select a name to explore the connection, without leaving the page.</p></div><div class="brand-switcher" role="tablist" aria-label="Brands Shelton has worked with"><button class="brand-tab" id="brand-tab-ohhhtc" type="button" role="tab" aria-selected="true" aria-controls="brand-panel-ohhhtc" data-brand="ohhhtc">OhhhTC</button><button class="brand-tab" id="brand-tab-jade" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-jade" data-brand="jade">Delícias da Jade</button><button class="brand-tab" id="brand-tab-asheerah" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-asheerah" data-brand="asheerah">Asheerah Hair</button></div><div class="brand-panels"><article class="brand-panel is-active" id="brand-panel-ohhhtc" role="tabpanel" aria-labelledby="brand-tab-ohhhtc" data-panel="ohhhtc"><div class="brand-index">01</div><div><h3>OhhhTC</h3><p>A brand I have worked with directly. Its presence is part of the practical experience behind Ndlela Systems.</p></div></article><article class="brand-panel" id="brand-panel-jade" role="tabpanel" aria-labelledby="brand-tab-jade" data-panel="jade" hidden><div class="brand-index">02</div><div><h3>Delícias da Jade</h3><p>A brand I have worked with directly. Its presence is part of the practical experience behind Ndlela Systems.</p></div></article><article class="brand-panel" id="brand-panel-asheerah" role="tabpanel" aria-labelledby="brand-tab-asheerah" data-panel="asheerah" hidden><div class="brand-index">03</div><div><h3>Asheerah Hair</h3><p>A brand I have worked with directly. Its presence is part of the practical experience behind Ndlela Systems.</p></div></article></div></div></section>
+    <section id="about" data-section="about" data-label="07 / About"><div class="wrap about-grid" data-reveal><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
+    <section class="contact" id="contact" data-section="contact" data-label="08 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
   <script>
@@ -184,6 +209,8 @@
     const sections = [...document.querySelectorAll('section[data-section]')];
     const revealItems = [...document.querySelectorAll('[data-reveal]')];
     const railButtons = [...document.querySelectorAll('.scroll-rail button')];
+    const brandTabs = [...document.querySelectorAll('.brand-tab')];
+    const brandPanels = [...document.querySelectorAll('.brand-panel')];
     const progressBar = document.querySelector('.scroll-progress span');
     const hero = document.querySelector('.hero');
     let ticking = false;
@@ -229,6 +256,29 @@
     railButtons.forEach(button => button.addEventListener('click', () => {
       document.getElementById(button.dataset.target)?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
     }));
+    const activateBrand = (brand, moveFocus = false) => {
+      brandTabs.forEach(tab => {
+        const selected = tab.dataset.brand === brand;
+        tab.setAttribute('aria-selected', String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        if (selected && moveFocus) tab.focus();
+      });
+      brandPanels.forEach(panel => {
+        const active = panel.dataset.panel === brand;
+        panel.classList.toggle('is-active', active);
+        panel.hidden = !active;
+      });
+    };
+    brandTabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activateBrand(tab.dataset.brand));
+      tab.addEventListener('keydown', event => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? brandTabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + brandTabs.length) % brandTabs.length;
+        activateBrand(brandTabs[next].dataset.brand, true);
+      });
+    });
+    activateBrand('ohhhtc');
     updateScrollMotion();
     setActiveSection('top');
   </script>
