@@ -53,10 +53,17 @@
     .hero-copy { max-width: 590px; margin: 26px 0 30px; color: var(--muted); font-size: 1.12rem; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; }
     .hero-note { margin-top: 22px; color: var(--muted); font-size: .86rem; }
-    .path-panel { min-height: 420px; border-radius: 38% 18px 18px 18px; background: var(--ink); position: relative; overflow: hidden; box-shadow: var(--shadow); }
+    .path-panel { min-height: 420px; border-radius: 38% 18px 18px 18px; background: var(--ink); position: relative; overflow: hidden; box-shadow: var(--shadow); transition: transform .55s cubic-bezier(.22,.8,.24,1), box-shadow .55s ease; }
+    .path-panel:hover { transform: translateY(-6px) rotate(1deg); box-shadow: 0 26px 64px rgba(22, 32, 42, .16); }
     .path-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 24%, rgba(189,112,76,.42), transparent 25%), radial-gradient(circle at 17% 82%, rgba(36,102,92,.58), transparent 30%); }
     .path-panel::after { content: ""; position: absolute; width: 150%; height: 150%; left: -16%; top: -23%; border: 1px solid rgba(255,255,255,.19); border-radius: 48%; transform: rotate(-22deg); box-shadow: 0 0 0 34px rgba(255,255,255,.035), 0 0 0 70px rgba(255,255,255,.025); }
     .panel-label { position: absolute; left: 28px; bottom: 26px; z-index: 1; color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; }
+    .transition-bridge { height: 104px; display: grid; place-items: center; background: var(--paper); overflow: hidden; }
+    .transition-bridge svg { width: min(780px, 76%); height: 70px; overflow: visible; }
+    .transition-bridge path { fill: none; stroke: var(--green); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 6 12; opacity: .52; }
+    .transition-bridge circle { fill: var(--copper); }
+    .transition-bridge .route { stroke: var(--copper); stroke-dasharray: 420; stroke-dashoffset: 420; opacity: 1; transition: stroke-dashoffset 1.15s cubic-bezier(.22,.8,.24,1); }
+    .transition-bridge.is-visible .route { stroke-dashoffset: 0; }
     section { padding: 96px 0; }
     .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 50px; align-items: end; margin-bottom: 42px; }
     h2 { font-size: clamp(2.3rem, 5vw, 4.4rem); }
@@ -119,8 +126,10 @@
       .step:last-child { border-bottom: 0; }
       .contact-box { padding: 28px 23px; }
       .footer-row { flex-direction: column; gap: 6px; }
+      .transition-bridge { height: 78px; }
+      .transition-bridge svg { width: 92%; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } .transition-bridge .route { stroke-dashoffset: 0; } }
   </style>
 </head>
 <body>
@@ -137,6 +146,7 @@
   </header>
   <main id="main">
     <section class="hero" id="top"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Build the way forward.</h1><p class="hero-copy">Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.</p><div class="actions"><a class="button primary" href="#contact">Discuss an operational problem</a><a class="button secondary" href="#approach">See how we think</a></div><p class="hero-note">Software, automation and integration built around the work that matters.</p></div><div class="path-panel" aria-label="Abstract connected path graphic"><span class="panel-label">From friction to flow</span></div></div></section>
+    <div class="transition-bridge" aria-hidden="true"><svg viewBox="0 0 780 70" preserveAspectRatio="none"><path d="M0 35 C120 35 115 13 220 13 S320 57 420 57 510 25 590 25 680 43 780 43"/><path class="route" d="M0 35 C120 35 115 13 220 13 S320 57 420 57 510 25 590 25 680 43 780 43"/><circle cx="780" cy="43" r="5"/></svg></div>
     <section class="friction"><div class="wrap"><div class="section-head"><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item"><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item"><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item"><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item"><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
     <section id="focus"><div class="wrap"><div class="section-head"><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item"><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item"><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item"><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item"><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item"><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item"><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
     <section class="approach" id="approach"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step"><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step"><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step"><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
@@ -144,5 +154,19 @@
     <section class="contact" id="contact"><div class="wrap"><div class="contact-box"><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
+  <script>
+    const bridge = document.querySelector('.transition-bridge');
+    if (bridge && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          bridge.classList.add('is-visible');
+          observer.disconnect();
+        }
+      }, { threshold: 0.45 });
+      observer.observe(bridge);
+    } else if (bridge) {
+      bridge.classList.add('is-visible');
+    }
+  </script>
 </body>
 </html>

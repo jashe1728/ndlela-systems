@@ -18,13 +18,17 @@ for (const width of [375, 768, 1440]) {
     scrollWidth: document.documentElement.scrollWidth,
     viewportWidth: window.innerWidth,
     focusTarget: document.querySelector('a[href="#contact"]')?.getAttribute('href'),
-    favicon: document.querySelector('link[rel="icon"]')?.getAttribute('href')
+    favicon: document.querySelector('link[rel="icon"]')?.getAttribute('href'),
+    bridge: !!document.querySelector('.transition-bridge')
   }));
-  results.push({ width, ...state, overflow: state.scrollWidth > state.viewportWidth, errors });
+  await page.locator('.transition-bridge').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1300);
+  const bridgeVisible = await page.locator('.transition-bridge').evaluate(element => element.classList.contains('is-visible'));
+  results.push({ width, ...state, bridgeVisible, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg')) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || !result.bridge || !result.bridgeVisible)) {
   process.exit(1);
 }
