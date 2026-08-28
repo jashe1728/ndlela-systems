@@ -26,6 +26,7 @@ for (const width of [320, 375, 390, 430, 768, 1100, 1440]) {
     heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position,
     brandCopyVerified: ['77 dishes', '8-language', 'Dynamic order flow', 'FAQ chatbot', 'Structured and cross-checked product pricing'].every(text => document.querySelector('.brand-panels')?.textContent.includes(text)),
     genericBrandCopy: [...document.querySelectorAll('.brand-panel p')].some(p => p.textContent.includes('Its presence is part of the practical experience'))
+    ,workflowReview: document.querySelector('.workflow-review')?.textContent.includes('smallest valuable improvement')
   }));
   await page.evaluate(() => window.scrollTo(0, Math.max(window.innerHeight * .35, 1)));
   await page.waitForTimeout(150);
@@ -47,16 +48,18 @@ for (const width of [320, 375, 390, 430, 768, 1100, 1440]) {
   }));
   await page.locator('.faq-toggle').click();
   await page.locator('[data-faq="fit"]').click();
+  await page.locator('[data-faq="ai"]').click();
   const faqState = await page.evaluate(() => ({
     expanded: document.querySelector('.faq-toggle')?.getAttribute('aria-expanded'),
     answerVisible: !document.querySelector('#faq-answer')?.hidden,
-    answerHasFit: document.querySelector('#faq-answer')?.textContent.includes('owner-led')
+    answerHasFit: document.querySelector('#faq-answer')?.textContent.includes('AI is considered'),
+    contactLinks: document.querySelectorAll('#faq-answer .faq-contact').length
   }));
   results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, ...brandToggle, ...faqState, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Make the work behind your business simpler' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2 || !result.brandCopyVerified || result.genericBrandCopy || result.expanded !== 'true' || !result.answerVisible || !result.answerHasFit)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Make the work behind your business simpler' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2 || !result.brandCopyVerified || result.genericBrandCopy || !result.workflowReview || result.expanded !== 'true' || !result.answerVisible || !result.answerHasFit || result.contactLinks !== 1)) {
   process.exit(1);
 }
