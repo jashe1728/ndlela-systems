@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en" class="js">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.">
+  <meta name="description" content="Ndlela Systems builds practical automation, integrations, dashboards and websites for businesses outgrowing manual work and disconnected tools.">
   <meta name="theme-color" content="#f7f5f0">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="Ndlela Systems | Build the way forward">
-  <meta property="og:description" content="Practical software and automation for better business operations.">
+  <meta property="og:title" content="Ndlela Systems | Practical automation and business systems">
+  <meta property="og:description" content="Practical automation, integrations and digital systems for businesses outgrowing manual work and disconnected tools.">
   <meta property="og:type" content="website">
-  <title>Ndlela Systems | Build the way forward</title>
+  <title>Ndlela Systems | Practical automation and business systems</title>
   <style>
     :root {
       --paper: #f7f5f0;
@@ -45,7 +45,7 @@
     .button.secondary { border: 1px solid var(--line); color: var(--ink); }
     .nav-cta:hover, .button:hover { transform: translateY(-2px); }
     .button.primary:hover { background: var(--green-dark); }
-    .hero { padding: 0; min-height: 160vh; overflow: clip; position: relative; }
+    .hero { padding: 0; min-height: 110vh; overflow: clip; position: relative; }
     .hero-grid { min-height: calc(100vh - 78px); position: sticky; top: 78px; display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 76px; }
     .hero-copy, .hero .eyebrow, .hero h1, .hero .actions, .hero-note { position: relative; z-index: 1; transition: transform .12s linear, opacity .12s linear; transform: translateY(calc(var(--hero-progress, 0) * -46px)); opacity: calc(1 - var(--hero-progress, 0) * .72); }
     .path-panel { transform: translateY(calc(var(--hero-progress, 0) * -18px)) scale(var(--hero-panel-scale, 1)); }
@@ -73,7 +73,7 @@
     .js section[data-section] { position: relative; }
     .js section[data-section]::before { content: attr(data-label); position: absolute; top: 22px; right: max(28px, calc((100vw - var(--max)) / 2)); color: var(--muted); font-size: .64rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; opacity: 0; transform: translateY(-8px); transition: opacity .5s ease, transform .5s ease; pointer-events: none; }
     .js section[data-section].is-active::before { opacity: .72; transform: none; }
-    .scroll-rail { position: fixed; top: 50%; right: 25px; z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 13px; transform: translateY(-50%); }
+    .scroll-rail { display: none; }
     .scroll-rail::before { content: ""; position: absolute; top: 8px; bottom: 8px; width: 1px; background: var(--line); z-index: -1; }
     .scroll-rail button { width: 10px; height: 10px; padding: 0; border: 1px solid var(--muted); border-radius: 50%; background: var(--paper); cursor: pointer; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
     .scroll-rail button:hover, .scroll-rail button:focus-visible { transform: scale(1.55); }
@@ -89,21 +89,21 @@
     .friction .section-kicker { color: #a4d2c5; }
     .friction .section-intro { color: rgba(255,255,255,.68); }
     .friction-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.17); border: 1px solid rgba(255,255,255,.17); }
-    .friction-item { background: var(--ink); padding: 28px 24px 30px; min-height: 230px; }
+    .friction-item { display: flex; flex-direction: column; background: var(--ink); padding: 28px 24px 30px; min-height: 230px; }
     .item-number { color: #a4d2c5; font-size: .77rem; letter-spacing: .14em; }
     h3 { margin-top: 46px; font-size: 1.32rem; letter-spacing: -.035em; }
-    .friction-item p { color: rgba(255,255,255,.62); font-size: .92rem; }
+    .friction-item p { margin-top: auto; color: rgba(255,255,255,.62); font-size: .92rem; }
     .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .focus-item { display: flex; justify-content: space-between; gap: 22px; padding: 25px 0; border-top: 1px solid var(--line); }
+    .focus-item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 270px); align-items: baseline; gap: 22px; padding: 25px 0; border-top: 1px solid var(--line); }
     .focus-item strong { font-size: 1.15rem; }
     .focus-item span { color: var(--muted); font-size: .92rem; text-align: right; max-width: 270px; }
     .approach { background: var(--paper-deep); }
     .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); }
-    .step { padding: 28px 28px 0 0; border-right: 1px solid var(--line); margin-right: 28px; min-height: 220px; }
+    .step { display: flex; flex-direction: column; align-items: flex-start; padding: 28px 28px 0 0; border-right: 1px solid var(--line); margin-right: 28px; min-height: 220px; }
     .step:last-child { border-right: 0; margin-right: 0; }
     .step-number { font-size: 2.8rem; color: var(--copper); font-weight: 700; letter-spacing: -.08em; }
     .step h3 { margin-top: 23px; }
-    .step p { color: var(--muted); max-width: 270px; }
+    .step p { margin-top: auto; color: var(--muted); max-width: 270px; }
     .about-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: 80px; }
     .ceo-section { background: var(--white); }
     .ceo-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: center; }
@@ -131,6 +131,22 @@
     .brand-panel li::marker { color: var(--copper); }
     .brand-link { color: var(--green-dark); font-size: .86rem; font-weight: 760; text-underline-offset: 4px; }
     .contact { padding-bottom: 110px; }
+    section[id] { scroll-margin-top: 96px; }
+    .proof-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 42px; background: var(--line); border: 1px solid var(--line); }
+    .proof-strip span { padding: 18px 16px; background: var(--paper); color: var(--muted); font-size: .86rem; }
+    .fit-note { margin: 34px 0 0; padding: 22px 24px; border-left: 3px solid var(--copper); background: rgba(189,112,76,.08); color: var(--ink); }
+    .faq-widget { position: fixed; right: 25px; bottom: 25px; z-index: 8; }
+    .faq-toggle { border: 0; border-radius: 999px; padding: 13px 18px; background: var(--copper); color: var(--white); font: inherit; font-weight: 760; cursor: pointer; box-shadow: var(--shadow); }
+    .faq-panel { display: none; width: min(360px, calc(100vw - 28px)); margin-top: 10px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+    .faq-panel.is-open { display: block; }
+    .faq-panel h2 { font-size: 1.35rem; margin-bottom: 6px; }
+    .faq-panel p { margin: 0 0 14px; color: var(--muted); font-size: .86rem; }
+    .faq-questions { display: grid; gap: 8px; }
+    .faq-question { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); text-align: left; font: inherit; font-size: .83rem; cursor: pointer; }
+    .faq-question:hover, .faq-question:focus-visible { border-color: var(--green); background: rgba(36,102,92,.06); }
+    .faq-answer { margin-top: 14px; padding: 12px; border-radius: 10px; background: var(--paper-deep); color: var(--ink); font-size: .86rem; }
+    .faq-answer[hidden] { display: none; }
+    .faq-contact { display: inline-block; margin-top: 10px; color: var(--green-dark); font-weight: 760; }
     .contact-box { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: end; padding: 48px; background: var(--green-dark); color: var(--white); border-radius: var(--radius); }
     .contact-box .section-kicker { color: #a4d2c5; }
     .contact-box h2 { max-width: 650px; margin-top: 16px; }
@@ -160,17 +176,22 @@
       .ceo-card { min-height: 230px; }
       .brand-switcher { grid-template-columns: 1fr; gap: 8px; margin-top: 24px; }
       .brand-panel { min-height: 150px; }
+      .focus-item { grid-template-columns: 1fr; gap: 8px; }
+      .focus-item span { max-width: none; text-align: left; }
       .scroll-rail { display: none; }
       .js section[data-section]::before { display: none; }
       h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
       section { padding: 66px 0; }
       .friction-grid { grid-template-columns: 1fr; }
+      .proof-strip { grid-template-columns: 1fr 1fr; }
       .friction-item { min-height: 0; padding: 22px; }
       .friction-item h3 { margin-top: 28px; }
       .steps { grid-template-columns: 1fr; }
       .step { border-right: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 25px 0; min-height: 0; }
       .step:last-child { border-bottom: 0; }
       .contact-box { padding: 28px 23px; }
+      .proof-strip { grid-template-columns: 1fr; }
+      .faq-widget { right: 14px; bottom: 14px; }
       .footer-row { flex-direction: column; gap: 6px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } .js [data-reveal] { opacity: 1; transform: none; } .scroll-rail { display: none; } }
@@ -178,7 +199,7 @@
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
-  <div class="scroll-rail" aria-label="Page sections">
+  <div class="scroll-rail" aria-label="Page sections" aria-hidden="true">
     <button type="button" data-target="top" aria-label="Home"><span>Home</span></button>
     <button type="button" data-target="friction" aria-label="Friction"><span>Friction</span></button>
     <button type="button" data-target="focus" aria-label="Focus areas"><span>Focus</span></button>
@@ -192,24 +213,42 @@
   <header>
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="Ndlela Systems home">
-        <img class="brand-logo" src="assets/ndlela-systems-primary.png" alt="Ndlela Systems">
+        <img class="brand-logo" width="2400" height="480" src="assets/ndlela-systems-primary.png" alt="Ndlela Systems">
       </a>
-      <nav aria-label="Main navigation"><a href="#approach">Approach</a><a href="#profile">Founder</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
+      <nav aria-label="Main navigation"><a href="#brands">Work</a><a href="#approach">Approach</a><a href="#profile">Founder</a><a href="#focus">Focus areas</a><a href="#about">About</a></nav>
       <a class="nav-cta" href="#contact">Start a conversation</a>
     </div>
   </header>
   <main id="main">
-    <section class="hero" id="top" data-section="top" data-label="01 / Direction"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Build the way forward.</h1><p class="hero-copy">Ndlela Systems helps growing businesses turn fragmented tools and manual work into simpler, connected operations.</p><div class="actions"><a class="button primary" href="#contact">Discuss an operational problem</a><a class="button secondary" href="#approach">See how we think</a></div><p class="hero-note">Software, automation and integration built around the work that matters.</p></div><div class="path-panel" aria-label="Abstract connected path graphic"><span class="panel-label">From friction to flow</span></div></div></section>
-    <section class="friction" id="friction" data-section="friction" data-label="02 / Friction"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">The starting point</div><h2>Where operational friction appears.</h2></div><p class="section-intro">Technology should make work clearer, not add another layer of complexity. We begin by understanding where time, information and attention are being lost.</p></div><div class="friction-grid"><article class="friction-item" data-reveal><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software.</p></article><article class="friction-item" data-reveal><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other.</p></article><article class="friction-item" data-reveal><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long.</p></article><article class="friction-item" data-reveal><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it.</p></article></div></div></section>
-    <section id="focus" data-section="focus" data-label="03 / Focus"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">What we are focused on</div><h2>Useful systems, not technology for its own sake.</h2></div><p class="section-intro">Every engagement should begin with the operational problem, existing workflow and measurable value. Technology is the means, not the product.</p></div><div class="focus-grid"><div class="focus-item" data-reveal><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs.</span></div><div class="focus-item" data-reveal><strong>Business-system integration</strong><span>Help existing tools share the right information.</span></div><div class="focus-item" data-reveal><strong>Internal dashboards</strong><span>Make important information easier to see and act on.</span></div><div class="focus-item" data-reveal><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work.</span></div><div class="focus-item" data-reveal><strong>Practical websites</strong><span>Build clear digital front doors connected to the business.</span></div><div class="focus-item" data-reveal><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step.</span></div></div></div></section>
-    <section class="approach" id="approach" data-section="approach" data-label="04 / Approach"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Our working approach</div><h2>Start small. Learn quickly. Improve what matters.</h2></div><p class="section-intro">The first step is not a large transformation programme. It is a clear view of the work and the smallest intervention that can create meaningful progress.</p></div><div class="steps"><article class="step" data-reveal><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step" data-reveal><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step" data-reveal><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
-    <section class="ceo-section" id="profile" data-section="profile" data-label="05 / Founder"><div class="wrap ceo-grid" data-reveal><div class="ceo-card" aria-label="Shelton Fenhane, Founder and CEO"><img class="ceo-portrait" src="assets/shelton-fenhane.jpg" alt="Shelton Fenhane, Founder and CEO"><span class="ceo-card-label">Founder &amp; CEO</span></div><div class="ceo-copy"><div class="section-kicker">The person behind the system</div><h2>Shelton Fenhane, Founder &amp; CEO.</h2><p>I am building Ndlela Systems around a simple belief: technology should make important work clearer, calmer and easier to move forward.</p><p>My role is to stay close to the problem, learn from the people doing the work and turn useful ideas into practical systems.</p></div></div></section>
-    <section class="brands-section" id="brands" data-section="brands" data-label="06 / Selected work"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Selected brand work</div><h2>Work that informs the way we build.</h2></div><p class="section-intro">These are brands I have worked with so far. Select a name to explore the connection, without leaving the page.</p></div><div class="brand-switcher" role="tablist" aria-label="Brands Shelton has worked with"><button class="brand-tab" id="brand-tab-ohhhtc" type="button" role="tab" aria-selected="true" aria-controls="brand-panel-ohhhtc" data-brand="ohhhtc">OhhhTC</button><button class="brand-tab" id="brand-tab-jade" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-jade" data-brand="jade">Delícias da Jade</button><button class="brand-tab" id="brand-tab-asheerah" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-asheerah" data-brand="asheerah">Asheerah Hair</button></div><div class="brand-panels"><article class="brand-panel is-active" id="brand-panel-ohhhtc" role="tabpanel" aria-labelledby="brand-tab-ohhhtc" data-panel="ohhhtc"><div class="brand-index">01</div><div><h3>OhhhTC</h3><p>Built and deployed a digital restaurant presence for a real restaurant in Costa da Caparica, Almada.</p><ul><li>Multi-language food menu with 77 dishes and a separate wine catalogue.</li><li>8-language support with a working language switcher.</li><li>Separate link page connecting the restaurant’s main actions.</li><li>Responsive, brand-consistent interface for phones and desktop.</li></ul><a class="brand-link" href="https://jashe1728.github.io/ohhhtc-menu/" target="_blank" rel="noopener">View the menu ↗</a></div></article><article class="brand-panel" id="brand-panel-jade" role="tabpanel" aria-labelledby="brand-tab-jade" data-panel="jade" hidden><div class="brand-index">02</div><div><h3>Delícias da Jade</h3><p>Built and deployed a digital ordering platform for a small cake business in Almada.</p><ul><li>Multi-page experience covering the home page, catalogue, reviews and location.</li><li>Catalogue of 10 cakes with dedicated product presentation.</li><li>Dynamic order flow with size, flavour, filling, add-ons and pricing logic.</li><li>Backend-connected order submissions, with WhatsApp as the fallback channel.</li><li>Public customer reviews with a live satisfied-client counter.</li></ul><a class="brand-link" href="https://jashe1728.github.io/delicias-da-jade/" target="_blank" rel="noopener">View the website ↗</a></div></article><article class="brand-panel" id="brand-panel-asheerah" role="tabpanel" aria-labelledby="brand-tab-asheerah" data-panel="asheerah" hidden><div class="brand-index">03</div><div><h3>Asheerah Hair</h3><p>Built and deployed a bilingual e-commerce site for an independent hair-extension business.</p><ul><li>PT/EN storefront with home, shop, product, cart, checkout, FAQ and information pages.</li><li>Structured, data-driven product catalogue designed to be maintained without Shopify.</li><li>Rule-based FAQ chatbot plus WhatsApp-first customer contact flows.</li><li>Worked on the pricing structure and optimized Excel pricing sheets so prices were defined and cross-checked before publication.</li></ul><a class="brand-link" href="https://jashe1728.github.io/asheerah-hair/" target="_blank" rel="noopener">View the website ↗</a></div></article></div></div></section>
-    <section id="about" data-section="about" data-label="07 / About"><div class="wrap about-grid" data-reveal><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is an early-stage technology company being built from Portugal, with a long-term Europe-Africa ambition.</p><p>The immediate focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p></div></div></section>
-    <section class="contact" id="contact" data-section="contact" data-label="08 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>We are interested in speaking with businesses that rely on manual processes, disconnected software or difficult reporting. A first conversation is for understanding the problem, not forcing a solution.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
+    <section class="hero" id="top" data-section="top" data-label="01 / Direction"><div class="wrap hero-grid"><div><div class="eyebrow">Practical technology for better operations</div><h1>Make the work behind your business simpler</h1><p class="hero-copy">Ndlela Systems helps owner-led and growing businesses reduce repetitive admin, connect the tools they already use and make important information easier to act on.</p><div class="actions"><a class="button primary" href="#contact">Talk through a workflow</a><a class="button secondary" href="#brands">See selected work</a></div><p class="hero-note">Automation, integrations and lightweight internal systems built around how your business actually works.</p><div class="proof-strip" aria-label="Recent delivered work"><span>Multilingual restaurant menus</span><span>Custom ordering flows</span><span>Bilingual e-commerce</span><span>FAQ and WhatsApp journeys</span></div></div><div class="path-panel" aria-hidden="true"><span class="panel-label">From friction to flow</span></div></div></section>
+    <section class="friction" id="friction" data-section="friction" data-label="02 / Friction"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">The starting point</div><h2>Where work keeps getting stuck</h2></div><p class="section-intro">Technology should remove unnecessary work, not create another system to manage. Start with the process, the handoffs and the information that keep slowing people down.</p></div><div class="friction-grid"><article class="friction-item" data-reveal><div class="item-number">01</div><h3>Repetitive manual work</h3><p>Information copied between email, spreadsheets, documents and business software</p></article><article class="friction-item" data-reveal><div class="item-number">02</div><h3>Disconnected tools</h3><p>Systems hold important information but do not communicate with each other</p></article><article class="friction-item" data-reveal><div class="item-number">03</div><h3>Slow reporting</h3><p>Data exists, but turning it into useful management information takes too long</p></article><article class="friction-item" data-reveal><div class="item-number">04</div><h3>AI without a workflow</h3><p>Interest in AI, but no clear, safe or valuable way to apply it</p></article></div></div></section>
+    <section id="focus" data-section="focus" data-label="03 / Focus"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">What Ndlela can help explore</div><h2>Useful systems, not technology for its own sake</h2></div><p class="section-intro">These capabilities are starting points for conversations about real operational problems. The right approach depends on the workflow, existing tools and measurable value.</p></div><div class="focus-grid"><div class="focus-item" data-reveal><strong>Workflow automation</strong><span>Reduce repetitive steps and handoffs</span></div><div class="focus-item" data-reveal><strong>Business-system integration</strong><span>Help existing tools share the right information</span></div><div class="focus-item" data-reveal><strong>Internal dashboards</strong><span>Make important information easier to see and act on</span></div><div class="focus-item" data-reveal><strong>AI-assisted workflows</strong><span>Apply AI carefully where it improves real work</span></div><div class="focus-item" data-reveal><strong>Practical websites</strong><span>Build clear digital front doors connected to the business</span></div><div class="focus-item" data-reveal><strong>Technical discovery</strong><span>Turn an unclear operational problem into a useful next step</span></div></div></div></section>
+    <section class="approach" id="approach" data-section="approach" data-label="04 / Approach"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Working approach</div><h2>Start with the work. Test what helps.</h2></div><p class="section-intro">The first step is a focused look at the work: what happens today, where it breaks down and what small improvement is worth testing first.</p></div><div class="steps"><article class="step" data-reveal><div class="step-number">01</div><h3>Understand the workflow</h3><p>Map the current process, tools, handoffs, errors and bottlenecks.</p></article><article class="step" data-reveal><div class="step-number">02</div><h3>Define the smallest valuable improvement</h3><p>Prioritise the simplest intervention that removes meaningful friction.</p></article><article class="step" data-reveal><div class="step-number">03</div><h3>Build, test and improve</h3><p>Deliver a practical system, validate it with the people using it, then iterate.</p></article></div></div></section>
+    <section class="ceo-section" id="profile" data-section="profile" data-label="05 / Founder"><div class="wrap ceo-grid" data-reveal><div class="ceo-card" aria-label="Shelton Fenhane, Founder and CEO"><img class="ceo-portrait" width="1005" height="1565" src="assets/shelton-fenhane.jpg" alt="Shelton Fenhane, Founder and CEO"><span class="ceo-card-label">Founder &amp; CEO</span></div><div class="ceo-copy"><div class="section-kicker">Founder-led delivery</div><h2>Shelton Fenhane, Founder &amp; CEO</h2><p>I am building Ndlela Systems around a simple belief: technology should make important work clearer, calmer and easier to move forward.</p><p>I work directly with businesses to understand operational problems, design practical systems and turn useful ideas into working digital tools.</p></div></div></section>
+    <section class="brands-section" id="brands" data-section="brands" data-label="06 / Selected work"><div class="wrap"><div class="section-head" data-reveal><div><div class="section-kicker">Selected work</div><h2>Work that informs the way we build</h2></div><p class="section-intro">A selection of customer-facing systems Shelton has designed, built and deployed. Open each example to see what was delivered.</p></div><div class="brand-switcher" role="tablist" aria-orientation="horizontal" aria-label="Brands Shelton has worked with"><button class="brand-tab" id="brand-tab-ohhhtc" type="button" role="tab" aria-selected="true" aria-controls="brand-panel-ohhhtc" data-brand="ohhhtc">OhhhTC - multilingual restaurant menu</button><button class="brand-tab" id="brand-tab-jade" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-jade" data-brand="jade">Delícias da Jade - custom cake ordering</button><button class="brand-tab" id="brand-tab-asheerah" type="button" role="tab" aria-selected="false" aria-controls="brand-panel-asheerah" data-brand="asheerah">Asheerah Hair - bilingual e-commerce</button></div><div class="brand-panels"><article class="brand-panel is-active" id="brand-panel-ohhhtc" role="tabpanel" aria-labelledby="brand-tab-ohhhtc" data-panel="ohhhtc"><div class="brand-index">01</div><div><h3>OhhhTC</h3><p>Built and deployed a multilingual digital menu and link page for a restaurant in Costa da Caparica, Almada.</p><ul><li>Multi-language food menu with 77 dishes and a separate wine catalogue.</li><li>8-language support with a working language switcher.</li><li>Separate link page connecting the restaurant’s main actions.</li><li>Responsive, brand-consistent interface for phones and desktop.</li></ul><a class="brand-link" href="https://jashe1728.github.io/ohhhtc-menu/" target="_blank" rel="noopener">View the menu ↗</a></div></article><article class="brand-panel" id="brand-panel-jade" role="tabpanel" aria-labelledby="brand-tab-jade" data-panel="jade" hidden><div class="brand-index">02</div><div><h3>Delícias da Jade</h3><p>Built and deployed a digital ordering platform for a small cake business in Almada.</p><ul><li>Multi-page experience covering the home page, catalogue, reviews and location.</li><li>Catalogue of 10 cakes with dedicated product presentation.</li><li>Dynamic order flow with size, flavour, filling, add-ons and pricing logic.</li><li>Structured order submission flow, with WhatsApp as an alternative contact route.</li><li>Public customer reviews and a customer-facing review summary.</li></ul><a class="brand-link" href="https://jashe1728.github.io/delicias-da-jade/" target="_blank" rel="noopener">View the website ↗</a></div></article><article class="brand-panel" id="brand-panel-asheerah" role="tabpanel" aria-labelledby="brand-tab-asheerah" data-panel="asheerah" hidden><div class="brand-index">03</div><div><h3>Asheerah Hair</h3><p>Built and deployed a bilingual e-commerce site for an independent hair-extension business.</p><ul><li>PT/EN storefront with home, shop, product, cart, checkout, FAQ and information pages.</li><li>Structured, data-driven product catalogue designed for straightforward maintenance.</li><li>Rule-based FAQ chatbot plus WhatsApp-first customer contact flows.</li><li>Structured and cross-checked product pricing before publication.</li></ul><a class="brand-link" href="https://jashe1728.github.io/asheerah-hair/" target="_blank" rel="noopener">View the website ↗</a></div></article></div></div></section>
+    <section id="about" data-section="about" data-label="07 / About"><div class="wrap about-grid" data-reveal><div><div class="section-kicker">About Ndlela</div></div><div class="about-copy"><p>Ndlela Systems is based in Portugal and is starting by working closely with businesses here, while building toward a wider Europe-Africa technology network.</p><p>The current focus is learning directly from businesses, building strong technical capability and solving concrete operational problems responsibly.</p><p class="fit-note"><strong>This is for you if:</strong> important work still depends on manual steps, scattered information or tools that do not connect.</p></div></div></section>
+    <section class="contact" id="contact" data-section="contact" data-label="08 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>If a recurring process depends on copying information, chasing handoffs or assembling reports by hand, start by explaining how it works today. The first conversation is exploratory; it is not a commitment to build.</p></div><div class="contact-links"><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Connect on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
+  <aside class="faq-widget" aria-label="Ndlela questions">
+    <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-panel">Questions?</button>
+    <div class="faq-panel" id="faq-panel" hidden>
+      <h2>Ask about Ndlela</h2>
+      <p>This is an automated guide based on approved site information.</p>
+      <div class="faq-questions" role="list">
+        <button class="faq-question" type="button" data-faq="what">What does Ndlela do?</button>
+        <button class="faq-question" type="button" data-faq="fit">Who is Ndlela for?</button>
+        <button class="faq-question" type="button" data-faq="work">Can you work with our existing tools?</button>
+        <button class="faq-question" type="button" data-faq="websites">Do you build websites and internal tools?</button>
+        <button class="faq-question" type="button" data-faq="process">What happens in the first conversation?</button>
+        <button class="faq-question" type="button" data-faq="ai">Do you work with AI?</button>
+        <button class="faq-question" type="button" data-faq="timing">How long does a project take?</button>
+      </div>
+      <div class="faq-answer" id="faq-answer" role="status" aria-live="polite" hidden></div>
+    </div>
+  </aside>
   <script>
+    document.documentElement.classList.add('js');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const sections = [...document.querySelectorAll('section[data-section]')];
     const revealItems = [...document.querySelectorAll('[data-reveal]')];
@@ -286,6 +325,30 @@
     activateBrand('ohhhtc');
     updateScrollMotion();
     setActiveSection('top');
+
+    const faqToggle = document.querySelector('.faq-toggle');
+    const faqPanel = document.querySelector('#faq-panel');
+    const faqAnswer = document.querySelector('#faq-answer');
+    const faqAnswers = {
+      what: 'Ndlela starts with the operational problem, then explores practical automation, integrations, dashboards, websites or AI-assisted workflows that may make the work clearer.',
+      fit: 'Ndlela is currently focused on owner-led and growing businesses where important work still depends on manual steps, scattered information or tools that do not connect.',
+      work: 'Yes. The starting point is understanding the workflow and the tools already in use. The right approach depends on the process, systems and intended outcome.',
+      websites: 'Yes. Selected work includes customer-facing websites, menus, ordering flows and a bilingual e-commerce storefront, alongside exploration of internal systems and dashboards.',
+      process: 'The first conversation is exploratory. Bring the process as it works today, including the handoffs, tools and parts that keep slowing people down. It is not a commitment to build.',
+      ai: 'AI is considered only where it improves a real workflow. Ndlela does not treat AI as the starting point or assume it is the right answer.',
+      timing: 'Timing depends on the workflow, scope and systems involved. A specific timeline is discussed only after the problem and intended outcome are understood.'
+    };
+    faqToggle?.addEventListener('click', () => {
+      const open = faqToggle.getAttribute('aria-expanded') === 'true';
+      faqToggle.setAttribute('aria-expanded', String(!open));
+      faqPanel.hidden = open;
+      faqPanel.classList.toggle('is-open', !open);
+    });
+    document.querySelectorAll('[data-faq]').forEach(question => question.addEventListener('click', () => {
+      faqAnswer.textContent = faqAnswers[question.dataset.faq];
+      faqAnswer.hidden = false;
+      faqAnswer.insertAdjacentHTML('beforeend', '<br><a class="faq-contact" href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Talk to Shelton on LinkedIn ↗</a>');
+    }));
   </script>
 </body>
 </html>

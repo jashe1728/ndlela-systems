@@ -5,7 +5,7 @@ const browser = await chromium.launch({
   headless: true
 });
 const results = [];
-for (const width of [375, 768, 1440]) {
+for (const width of [320, 375, 390, 430, 768, 1100, 1440]) {
   const page = await browser.newPage({ viewport: { width, height: 900 } });
   const errors = [];
   page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
@@ -24,7 +24,7 @@ for (const width of [375, 768, 1440]) {
     portraitSrc: document.querySelector('.ceo-portrait')?.getAttribute('src'),
     portraitLoaded: document.querySelector('.ceo-portrait')?.complete && document.querySelector('.ceo-portrait')?.naturalWidth > 0,
     heroPosition: getComputedStyle(document.querySelector('.hero-grid')).position,
-    brandCopyVerified: ['77 dishes', '8-language', 'Dynamic order flow', 'FAQ chatbot', 'Excel pricing sheets'].every(text => document.querySelector('.brand-panels')?.textContent.includes(text)),
+    brandCopyVerified: ['77 dishes', '8-language', 'Dynamic order flow', 'FAQ chatbot', 'Structured and cross-checked product pricing'].every(text => document.querySelector('.brand-panels')?.textContent.includes(text)),
     genericBrandCopy: [...document.querySelectorAll('.brand-panel p')].some(p => p.textContent.includes('Its presence is part of the practical experience'))
   }));
   await page.evaluate(() => window.scrollTo(0, Math.max(window.innerHeight * .35, 1)));
@@ -45,11 +45,18 @@ for (const width of [375, 768, 1440]) {
     activePanel: document.querySelector('.brand-panel.is-active')?.id,
     hiddenPanels: document.querySelectorAll('.brand-panel[hidden]').length
   }));
-  results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, ...brandToggle, overflow: state.scrollWidth > state.viewportWidth, errors });
+  await page.locator('.faq-toggle').click();
+  await page.locator('[data-faq="fit"]').click();
+  const faqState = await page.evaluate(() => ({
+    expanded: document.querySelector('.faq-toggle')?.getAttribute('aria-expanded'),
+    answerVisible: !document.querySelector('#faq-answer')?.hidden,
+    answerHasFit: document.querySelector('#faq-answer')?.textContent.includes('owner-led')
+  }));
+  results.push({ width, ...state, transitionProgress, transitionActive, ...interaction, ...brandToggle, ...faqState, overflow: state.scrollWidth > state.viewportWidth, errors });
   await page.close();
 }
 await browser.close();
 console.log(JSON.stringify(results, null, 2));
-if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Build the way forward.' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2 || !result.brandCopyVerified || result.genericBrandCopy)) {
+if (results.some(result => result.overflow || result.errors.length || result.h1 !== 'Make the work behind your business simpler' || result.favicon !== 'favicon.svg' || result.logoSrc !== 'assets/ndlela-systems-primary.png' || !result.logoLoaded || result.portraitSrc !== 'assets/shelton-fenhane.jpg' || !result.portraitLoaded || !result.transitionActive || result.sections !== 8 || result.railCount !== 8 || !result.frictionActive || !result.frictionRevealed || result.progressWidth <= 0 || result.selected !== 'true' || result.activePanel !== 'brand-panel-jade' || result.hiddenPanels !== 2 || !result.brandCopyVerified || result.genericBrandCopy || result.expanded !== 'true' || !result.answerVisible || !result.answerHasFit)) {
   process.exit(1);
 }
