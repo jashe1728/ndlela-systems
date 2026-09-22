@@ -13,4 +13,6 @@
 !assets/ndlela-systems-launch-instagram-1080x1350.png
 !assets/launch-batch/
 !assets/launch-batch/*.jpg
+!assets/confirmed-batch/
+!assets/confirmed-batch/*.png
 !assets/first-delivered-job.jpg
