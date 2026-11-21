@@ -2,7 +2,13 @@
   "name": "ndlela-systems-site",
   "private": true,
   "scripts": {
-    "test": "node tests/site-test.mjs"
+    "dev": "node chatbot/server/local-dev.mjs",
+    "bundle:worker": "node chatbot/worker/bundle-clients.mjs",
+    "test": "node tests/site-test.mjs",
+    "test:chatbot": "node --test tests/chatbot-unit-test.mjs",
+    "test:widget": "node tests/chatbot-widget-test.mjs",
+    "eval:mock": "node chatbot/evals/run-evals.mjs --mock",
+    "eval": "node chatbot/evals/run-evals.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.55.0"

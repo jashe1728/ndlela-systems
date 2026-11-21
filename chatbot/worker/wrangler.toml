@@ -1,0 +1,22 @@
+name = "ndlela-chatbot-api"
+account_id = "d6d476cc640a399308328153bb90b29e"
+workers_dev = true
+main = "index.mjs"
+compatibility_date = "2026-01-01"
+
+[vars]
+OPENAI_MODEL = "gpt-4.1-mini"
+ALLOWED_ORIGINS = "https://ndlelasystems.com,https://www.ndlelasystems.com"
+RATE_LIMIT_PER_MIN = "20"
+ALLOW_LOCALHOST = "false"
+
+[[ratelimits]]
+name = "CHAT_RATE_LIMITER"
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 20
+period = 60
+
+# Set secrets in Cloudflare before deploying (never commit secrets here):
+#   npx wrangler secret put OPENAI_API_KEY

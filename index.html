@@ -10,6 +10,7 @@
   <meta property="og:description" content="Practical automation, integrations and digital systems for businesses outgrowing manual work and disconnected tools.">
   <meta property="og:type" content="website">
   <title>Ndlela Systems | Practical automation and business systems</title>
+  <link rel="stylesheet" href="chatbot/widget/ndlela-chat.css">
   <style>
     :root {
       --paper: #f7f5f0;
@@ -236,21 +237,53 @@
     <section class="contact" id="contact" data-section="contact" data-label="08 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>If a recurring process depends on copying information, chasing handoffs or assembling reports by hand, start by explaining how it works today. The first conversation is exploratory; it is not a commitment to build.</p></div><div class="contact-links"><a href="https://wa.me/351910058371" target="_blank" rel="noopener">WhatsApp: +351 910 058 371 ↗</a><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Talk through a workflow on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div><div class="workflow-review"><div><h3>Start with a Workflow Review</h3><p>A focused first conversation about one process that is slowing the business down. No technical brief is required.</p></div><ul><li>Understand the current process and tools</li><li>Map the handoffs and friction</li><li>Identify the smallest valuable improvement</li><li>Agree the most useful next step, if there is one</li></ul></div><p class="contact-note">The review is exploratory. It does not commit either side to a build, timeline or specific technology.</p></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
-  <aside class="faq-widget" aria-label="Ndlela questions">
+  <aside class="faq-widget" data-client="ndlela" data-api-url="https://ndlela-chatbot-api.ndlela-systems.workers.dev/api/chat" aria-label="Makweru — Ndlela Systems assistant">
     <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-panel">Questions?</button>
     <div class="faq-panel" id="faq-panel" hidden>
-      <h2>Ask about Ndlela</h2>
-      <p>This is an automated guide based on approved site information.</p>
-      <div class="faq-questions" role="list">
-        <button class="faq-question" type="button" data-faq="what">What does Ndlela do?</button>
-        <button class="faq-question" type="button" data-faq="fit">Who is Ndlela for?</button>
-        <button class="faq-question" type="button" data-faq="work">Can you work with our existing tools?</button>
-        <button class="faq-question" type="button" data-faq="websites">Do you build websites and internal tools?</button>
-        <button class="faq-question" type="button" data-faq="process">What happens in the first conversation?</button>
-        <button class="faq-question" type="button" data-faq="ai">Do you work with AI?</button>
-        <button class="faq-question" type="button" data-faq="timing">How long does a project take?</button>
+      <div class="chat-header">
+        <div>
+          <div class="chat-title-row">
+            <h2>Ask Makweru</h2>
+            <span class="chat-lang-badge">EN / PT</span>
+          </div>
+          <p class="chat-subtitle">Quick answers from approved Ndlela Systems info, or ask in English / Portuguese.</p>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-icon-btn chat-clear-btn" type="button" aria-label="Clear conversation">Clear</button>
+          <button class="chat-icon-btn chat-close-btn" type="button" aria-label="Close assistant">✕</button>
+        </div>
       </div>
-      <div class="faq-answer" id="faq-answer" role="status" aria-live="polite" hidden></div>
+      <div class="chat-scroll-area">
+        <div class="faq-questions" role="list">
+          <button class="faq-question" type="button" data-faq="what">What does Ndlela do?</button>
+          <button class="faq-question" type="button" data-faq="fit">Who is Ndlela for?</button>
+          <button class="faq-question" type="button" data-faq="work">Can you work with our existing tools?</button>
+          <button class="faq-question" type="button" data-faq="websites">Do you build websites and internal tools?</button>
+          <button class="faq-question" type="button" data-faq="process">What happens in the first conversation?</button>
+          <button class="faq-question" type="button" data-faq="ai">Do you work with AI?</button>
+          <button class="faq-question" type="button" data-faq="timing">How long does a project take?</button>
+        </div>
+        <div class="faq-answer" id="faq-answer" role="status" aria-live="polite" hidden></div>
+        <div class="chat-thread" id="chat-thread" aria-live="polite"></div>
+        <div class="chat-brief-drawer" id="chat-brief-drawer" hidden>
+          <form class="chat-brief-form">
+            <input type="text" name="visitorName" placeholder="Your name (optional)" maxlength="120" aria-label="Your name">
+            <input type="text" name="businessName" placeholder="Business name (optional)" maxlength="120" aria-label="Business name">
+            <textarea name="bottleneck" rows="2" placeholder="What manual task or workflow is slowing you down?" maxlength="350" aria-label="Workflow bottleneck" required></textarea>
+            <button class="chat-brief-submit" type="submit">Prepare WhatsApp brief</button>
+          </form>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <form class="chat-composer">
+          <textarea class="chat-input" rows="1" maxlength="800" placeholder="Ask Makweru in English or Portuguese..." aria-label="Message Makweru"></textarea>
+          <button class="chat-send-btn" type="submit">Send</button>
+        </form>
+        <div class="chat-footer-bar">
+          <button class="chat-brief-toggle" type="button" aria-expanded="false" aria-controls="chat-brief-drawer">Start Workflow Review brief</button>
+          <span class="chat-hint">Grounded in site facts · EN / PT</span>
+        </div>
+      </div>
     </div>
   </aside>
   <script>
@@ -331,29 +364,7 @@
     activateBrand('ohhhtc');
     updateScrollMotion();
     setActiveSection('top');
-
-    const faqToggle = document.querySelector('.faq-toggle');
-    const faqPanel = document.querySelector('#faq-panel');
-    const faqAnswer = document.querySelector('#faq-answer');
-    const faqAnswers = {
-      what: 'Ndlela starts with the operational problem, then explores practical automation, integrations, dashboards, websites or AI-assisted workflows that may make the work clearer.',
-      fit: 'Ndlela is currently focused on owner-led and growing businesses where important work still depends on manual steps, scattered information or tools that do not connect.',
-      work: 'Yes. The starting point is understanding the workflow and the tools already in use. The right approach depends on the process, systems and intended outcome.',
-      websites: 'Yes. Selected work includes customer-facing websites, menus, ordering flows and a bilingual e-commerce storefront, alongside exploration of internal systems and dashboards.',
-      process: 'The first conversation is exploratory. Bring the process as it works today, including the handoffs, tools and parts that keep slowing people down. It is not a commitment to build.',
-      ai: 'AI is considered only where it improves a real workflow. Ndlela does not treat AI as the starting point or assume it is the right answer.',
-      timing: 'Timing depends on the workflow, scope and systems involved. A specific timeline is discussed only after the problem and intended outcome are understood.'
-    };
-    faqToggle?.addEventListener('click', () => {
-      const open = faqToggle.getAttribute('aria-expanded') === 'true';
-      faqToggle.setAttribute('aria-expanded', String(!open));
-      faqPanel.hidden = open;
-      faqPanel.classList.toggle('is-open', !open);
-    });
-    document.querySelectorAll('[data-faq]').forEach(question => question.addEventListener('click', () => {
-      faqAnswer.innerHTML = `${faqAnswers[question.dataset.faq]}<br><a class="faq-contact" href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Talk to Shelton on LinkedIn ↗</a>`;
-      faqAnswer.hidden = false;
-    }));
   </script>
+  <script src="chatbot/widget/ndlela-chat.js"></script>
 </body>
 </html>
