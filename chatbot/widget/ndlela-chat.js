@@ -1,4 +1,6 @@
 (function () {
+  const GREETING_TEXT = 'Hi, Im makweru how can I help you?';
+
   const FAQ_ANSWERS = {
     what: 'Ndlela Systems helps people build businesses and helps existing businesses improve and achieve their goals through practical digital services—websites, manageable web apps, business systems, workflow organisation/automation, connecting existing tools, payment-process organisation, Excel/Sheets, and practical operational consultancy.',
     fit: 'Ndlela Systems is ideal for small and medium companies, individual entrepreneurs, and young or early-stage founders organising or starting their businesses.',
@@ -11,6 +13,8 @@
 
   const DEFAULT_CONTACT = {
     whatsappNumber: '351910058371',
+    whatsappDisplay: '+351 910 058 371',
+    whatsappBaseUrl: 'https://wa.me/351910058371',
     linkedinUrl: 'https://www.linkedin.com/company/ndlelasystems/'
   };
 
@@ -34,6 +38,60 @@
 
   function isSafeHttpsUrl(url, prefix) {
     return typeof url === 'string' && url.startsWith(prefix || 'https://');
+  }
+
+  function isExactObscenityRefusal(text) {
+    return typeof text === 'string' && text.trim() === 'I cant satisfy your request';
+  }
+
+  function isOffTopicDecline(text) {
+    if (typeof text !== 'string') return false;
+    return /\b(only\s+handles?\s+questions\s+about|only\s+help\s+with\s+questions\s+about|dedico-me\s+apenas|dedica-se\s+exclusivamente)\b/i.test(
+      text
+    );
+  }
+
+  function shouldShowContactCta(replyText) {
+    if (typeof replyText !== 'string' || !replyText.trim()) return false;
+    if (isExactObscenityRefusal(replyText) || isOffTopicDecline(replyText)) return false;
+    return /(\bfor\s+more\s+details\b|\bpara\s+mais\s+detalhes\b|\bcontact\s+shelton\b|\bcontacte\s+o\s+shelton\b|\bwhatsapp\b|\b351\s?910\s?058\s?371\b|wa\.me\/351910058371|\bfree\b.*\bconsultation\b|\bprimeira\s+consulta\b.*\bgratuita\b|\bworkflow\s+review\b|\brevis[aã]o\s+de\s+fluxo\b)/i.test(
+      replyText
+    );
+  }
+
+  function formatDisplayReplyText(replyText, hasCard) {
+    if (typeof replyText !== 'string') return '';
+    if (!hasCard) return replyText;
+    return replyText
+      .replace(/\[([^\]]+)\]\((https?:\/\/wa\.me\/351910058371[^)]*)\)/gi, '$1')
+      .replace(/https?:\/\/wa\.me\/351910058371\S*/gi, '')
+      .replace(/\(\s*\)/g, '')
+      .replace(/:\s*(?=\n|$)/gm, '.')
+      .replace(/[ \t]{2,}/g, ' ')
+      .replace(/\s+\./g, '.')
+      .trim();
+  }
+
+  function attachWheelScrollGuard(scrollEl) {
+    if (!scrollEl) return;
+    scrollEl.addEventListener(
+      'wheel',
+      (event) => {
+        const deltaY = event.deltaY;
+        if (deltaY === 0) return;
+        const maxScrollTop = scrollEl.scrollHeight - scrollEl.clientHeight;
+        if (maxScrollTop <= 0) {
+          event.preventDefault();
+          return;
+        }
+        const atTop = scrollEl.scrollTop <= 0 && deltaY < 0;
+        const atBottom = scrollEl.scrollTop >= maxScrollTop - 1 && deltaY > 0;
+        if (atTop || atBottom) {
+          event.preventDefault();
+        }
+      },
+      { passive: false }
+    );
   }
 
   async function copyToClipboard(text) {
@@ -97,7 +155,7 @@
       currentTools,
       desiredOutcome,
       summaryText,
-      whatsappUrl: `https://wa.me/${DEFAULT_CONTACT.whatsappNumber}?text=${encodeURIComponent(summaryText)}`,
+      whatsappUrl: `${DEFAULT_CONTACT.whatsappBaseUrl}?text=${encodeURIComponent(summaryText)}`,
       linkedinUrl: DEFAULT_CONTACT.linkedinUrl
     };
   }
@@ -112,12 +170,12 @@
       window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
     const apiUrl = explicitApiUrl || (isLocalHost ? '/api/chat' : '');
 
-    const toggleBtn = root.querySelector('.faq-toggle');
-    const panel = root.querySelector('#faq-panel');
-    const faqAnswer = root.querySelector('#faq-answer');
-    const closeBtn = root.querySelector('.chat-close-btn');
+    // Makweru AI chat elements
+    const chatLauncherBtn = root.querySelector('.chat-launcher');
+    const chatPanel = root.querySelector('#makweru-panel');
+    const chatCloseBtn = root.querySelector('.chat-close-btn');
     const clearBtn = root.querySelector('.chat-clear-btn');
-    const scrollArea = root.querySelector('.chat-scroll-area');
+    const chatScrollArea = root.querySelector('.chat-scroll-area');
     const threadEl = root.querySelector('.chat-thread');
     const composerForm = root.querySelector('.chat-composer');
     const inputEl = root.querySelector('.chat-input');
@@ -127,9 +185,19 @@
     const briefForm = root.querySelector('.chat-brief-form');
     const langBadge = root.querySelector('.chat-lang-badge');
 
+    // Separate Questions? FAQ elements
+    const faqToggleBtn = root.querySelector('.faq-toggle');
+    const faqPanel = root.querySelector('#faq-panel');
+    const faqCloseBtn = root.querySelector('.faq-close-btn');
+    const faqScrollArea = root.querySelector('.faq-scroll-area');
+    const faqAnswer = root.querySelector('#faq-answer');
+
     const history = [];
     let currentLang = 'en';
     let inFlight = false;
+
+    attachWheelScrollGuard(chatScrollArea);
+    attachWheelScrollGuard(faqScrollArea);
 
     function updateUiLanguage(lang) {
       currentLang = lang === 'pt' ? 'pt' : 'en';
@@ -139,24 +207,33 @@
       if (inputEl) {
         inputEl.placeholder =
           currentLang === 'pt'
-            ? 'Escreva uma pergunta (PT ou EN)...'
-            : 'Ask a question in English or Portuguese...';
+            ? 'Escreva ao Makweru (PT ou EN)...'
+            : 'Ask Makweru in English or Portuguese...';
       }
       if (sendBtn && !inFlight) {
         sendBtn.textContent = currentLang === 'pt' ? 'Enviar' : 'Send';
       }
     }
 
-    function setOpen(open) {
-      if (!toggleBtn || !panel) return;
-      toggleBtn.setAttribute('aria-expanded', String(open));
-      panel.hidden = !open;
-      panel.classList.toggle('is-open', open);
+    function setChatOpen(open) {
+      if (!chatLauncherBtn || !chatPanel) return;
+      if (open) setFaqOpen(false);
+      chatLauncherBtn.setAttribute('aria-expanded', String(open));
+      chatPanel.hidden = !open;
+      chatPanel.classList.toggle('is-open', open);
+    }
+
+    function setFaqOpen(open) {
+      if (!faqToggleBtn || !faqPanel) return;
+      if (open) setChatOpen(false);
+      faqToggleBtn.setAttribute('aria-expanded', String(open));
+      faqPanel.hidden = !open;
+      faqPanel.classList.toggle('is-open', open);
     }
 
     function scrollThreadToBottom() {
-      if (scrollArea) {
-        scrollArea.scrollTop = scrollArea.scrollHeight;
+      if (chatScrollArea) {
+        chatScrollArea.scrollTop = chatScrollArea.scrollHeight;
       }
     }
 
@@ -168,6 +245,53 @@
       threadEl.appendChild(el);
       scrollThreadToBottom();
       return el;
+    }
+
+    function renderInitialGreeting() {
+      if (!threadEl) return;
+      appendMessage('assistant', GREETING_TEXT, 'chat-msg--greeting');
+    }
+
+    function appendContactCard(lang, userContext) {
+      if (!threadEl) return;
+      const isPt = lang === 'pt';
+      const card = document.createElement('div');
+      card.className = 'chat-contact-card';
+
+      const title = document.createElement('div');
+      title.className = 'chat-handoff-title';
+      title.textContent = isPt
+        ? 'Para mais detalhes, contacte o Shelton'
+        : 'For more details, contact Shelton';
+      card.appendChild(title);
+
+      const actions = document.createElement('div');
+      actions.className = 'chat-handoff-actions';
+
+      const prefill = isPt
+        ? `Olá Shelton, vim pelo site da Ndlela Systems (${DEFAULT_CONTACT.whatsappDisplay}): ${String(userContext || '').slice(0, 180)}`
+        : `Hi Shelton, I'm reaching out from the Ndlela Systems website: ${String(userContext || '').slice(0, 180)}`;
+      const waLink = document.createElement('a');
+      waLink.className = 'chat-handoff-btn primary';
+      waLink.href = `${DEFAULT_CONTACT.whatsappBaseUrl}?text=${encodeURIComponent(prefill)}`;
+      waLink.target = '_blank';
+      waLink.rel = 'noopener noreferrer';
+      waLink.textContent = isPt
+        ? `WhatsApp (${DEFAULT_CONTACT.whatsappDisplay}) ↗`
+        : `WhatsApp (${DEFAULT_CONTACT.whatsappDisplay}) ↗`;
+      actions.appendChild(waLink);
+
+      const liLink = document.createElement('a');
+      liLink.className = 'chat-handoff-link';
+      liLink.href = DEFAULT_CONTACT.linkedinUrl;
+      liLink.target = '_blank';
+      liLink.rel = 'noopener noreferrer';
+      liLink.textContent = 'LinkedIn ↗';
+      actions.appendChild(liLink);
+
+      card.appendChild(actions);
+      threadEl.appendChild(card);
+      scrollThreadToBottom();
     }
 
     function appendHandoffCard(handoff) {
@@ -210,7 +334,7 @@
         waLink.className = 'chat-handoff-btn primary';
         waLink.href = handoff.whatsappUrl;
         waLink.target = '_blank';
-        waLink.rel = 'noopener';
+        waLink.rel = 'noopener noreferrer';
         waLink.textContent = isPt ? 'Enviar por WhatsApp ↗' : 'Send via WhatsApp ↗';
         actions.appendChild(waLink);
       }
@@ -233,7 +357,7 @@
         liLink.className = 'chat-handoff-link';
         liLink.href = handoff.linkedinUrl;
         liLink.target = '_blank';
-        liLink.rel = 'noopener';
+        liLink.rel = 'noopener noreferrer';
         liLink.textContent = 'LinkedIn ↗';
         actions.appendChild(liLink);
       }
@@ -252,13 +376,15 @@
       faqAnswer.appendChild(document.createElement('br'));
       const contactLink = document.createElement('a');
       contactLink.className = 'faq-contact';
-      contactLink.href = `https://wa.me/${DEFAULT_CONTACT.whatsappNumber}`;
+      contactLink.href = DEFAULT_CONTACT.whatsappBaseUrl;
       contactLink.target = '_blank';
-      contactLink.rel = 'noopener';
+      contactLink.rel = 'noopener noreferrer';
       contactLink.textContent = 'For more details, contact Shelton on WhatsApp ↗';
       faqAnswer.appendChild(contactLink);
       faqAnswer.hidden = false;
-      scrollThreadToBottom();
+      if (faqScrollArea) {
+        faqScrollArea.scrollTop = faqScrollArea.scrollHeight;
+      }
     }
 
     async function sendChatMessage(rawText) {
@@ -318,13 +444,13 @@
             fallbackText = isRateLimited
               ? 'Demasiados pedidos seguidos. Aguarde alguns segundos ou contacte o Shelton diretamente abaixo.'
               : isNotConfigured
-                ? 'O assistente com IA ainda não tem chave configurada neste ambiente local. Pode usar as perguntas rápidas acima ou enviar o resumo por WhatsApp.'
+                ? 'O assistente com IA ainda não está disponível neste ambiente local. Pode enviar o resumo ao Shelton por WhatsApp.'
                 : 'Não foi possível ligar ao assistente agora. Pode contactar o Shelton diretamente abaixo.';
           } else {
             fallbackText = isRateLimited
               ? 'Too many requests in a short time. Please wait a moment or reach Shelton directly below.'
               : isNotConfigured
-                ? 'Live AI is not configured in this local environment yet. Use the quick questions above or reach Shelton via WhatsApp below.'
+                ? 'Live AI is not configured in this local environment yet. You can reach Shelton via WhatsApp below.'
                 : 'Unable to reach the assistant right now. You can message Shelton directly below.';
           }
           appendMessage('assistant', fallbackText);
@@ -334,12 +460,19 @@
 
         const replyLang = data.language === 'pt' ? 'pt' : 'en';
         updateUiLanguage(replyLang);
-        appendMessage('assistant', data.reply);
+
+        const showHandoff = Boolean(data.handoff);
+        const showCta = !showHandoff && shouldShowContactCta(data.reply);
+        const displayText = formatDisplayReplyText(data.reply, showHandoff || showCta);
+
+        appendMessage('assistant', displayText || data.reply);
         history.push({ role: 'assistant', content: data.reply });
         if (history.length > 12) history.splice(0, history.length - 12);
 
-        if (data.handoff) {
+        if (showHandoff) {
           appendHandoffCard(data.handoff);
+        } else if (showCta) {
+          appendContactCard(replyLang, text);
         }
       } catch {
         if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
@@ -362,20 +495,46 @@
       }
     }
 
-    toggleBtn?.addEventListener('click', () => {
-      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-      setOpen(!isExpanded);
+    renderInitialGreeting();
+
+    chatLauncherBtn?.addEventListener('click', () => {
+      const isExpanded = chatLauncherBtn.getAttribute('aria-expanded') === 'true';
+      setChatOpen(!isExpanded);
+      if (!isExpanded && inputEl) {
+        inputEl.focus();
+      }
     });
 
-    closeBtn?.addEventListener('click', () => setOpen(false));
+    chatCloseBtn?.addEventListener('click', () => {
+      setChatOpen(false);
+      chatLauncherBtn?.focus();
+    });
+
+    faqToggleBtn?.addEventListener('click', () => {
+      const isExpanded = faqToggleBtn.getAttribute('aria-expanded') === 'true';
+      setFaqOpen(!isExpanded);
+    });
+
+    faqCloseBtn?.addEventListener('click', () => {
+      setFaqOpen(false);
+      faqToggleBtn?.focus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      if (chatPanel && !chatPanel.hidden) {
+        setChatOpen(false);
+        chatLauncherBtn?.focus();
+      } else if (faqPanel && !faqPanel.hidden) {
+        setFaqOpen(false);
+        faqToggleBtn?.focus();
+      }
+    });
 
     clearBtn?.addEventListener('click', () => {
       history.length = 0;
       if (threadEl) threadEl.replaceChildren();
-      if (faqAnswer) {
-        faqAnswer.replaceChildren();
-        faqAnswer.hidden = true;
-      }
+      renderInitialGreeting();
       updateUiLanguage('en');
     });
 
@@ -432,11 +591,11 @@
       if (briefToggleBtn) briefToggleBtn.setAttribute('aria-expanded', 'false');
     });
 
-    return { setOpen, showQuickFaq, sendChatMessage };
+    return { setChatOpen, setFaqOpen, showQuickFaq, sendChatMessage };
   }
 
   function initAll() {
-    document.querySelectorAll('.faq-widget').forEach((node) => initWidget(node));
+    document.querySelectorAll('.assistant-dock, .faq-widget').forEach((node) => initWidget(node));
   }
 
   window.NdlelaChatWidget = { initWidget, initAll };

@@ -1,5 +1,5 @@
-/* Scoped styles for the reusable Ndlela Systems assistant widget */
-.faq-widget {
+/* Scoped styles for Makweru AI chat + separate Quick Questions FAQ dock */
+.assistant-dock {
   position: fixed;
   right: 25px;
   bottom: 25px;
@@ -7,20 +7,44 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: 10px;
   max-width: calc(100vw - 24px);
 }
 
+.assistant-launchers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.chat-launcher,
 .faq-toggle {
   border: 0;
   border-radius: 999px;
-  padding: 12px 18px;
-  background: var(--copper);
-  color: var(--white);
+  padding: 11px 18px;
   font: inherit;
   font-weight: 760;
+  font-size: .88rem;
   cursor: pointer;
   box-shadow: var(--shadow);
   transition: transform .2s ease, background .2s ease;
+}
+
+.chat-launcher {
+  background: var(--ink);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, .14);
+}
+
+.chat-launcher:hover {
+  transform: translateY(-2px);
+  background: var(--green-dark);
+}
+
+.faq-toggle {
+  background: var(--copper);
+  color: var(--white);
 }
 
 .faq-toggle:hover {
@@ -28,11 +52,12 @@
   background: #a85f3d;
 }
 
+.chat-panel,
 .faq-panel {
   display: none;
   width: min(390px, calc(100vw - 24px));
-  max-height: min(78vh, 620px);
-  margin-top: 10px;
+  max-height: min(74vh, 580px);
+  max-height: min(74dvh, 580px);
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -41,19 +66,22 @@
   overflow: hidden;
 }
 
+.chat-panel.is-open,
 .faq-panel.is-open {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.chat-header {
+.chat-header,
+.faq-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
 }
 
 .chat-title-row {
@@ -63,10 +91,12 @@
   flex-wrap: wrap;
 }
 
-.faq-panel .chat-header h2 {
+.chat-panel .chat-header h2,
+.faq-panel .faq-header h2 {
   font-size: 1.15rem;
   line-height: 1.15;
   margin: 0;
+  color: var(--ink);
 }
 
 .chat-lang-badge {
@@ -114,10 +144,13 @@
   border-color: var(--green);
 }
 
-.chat-scroll-area {
+.chat-scroll-area,
+.faq-scroll-area {
   flex: 1 1 auto;
-  min-height: 120px;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -179,10 +212,6 @@
   gap: 8px;
 }
 
-.chat-thread:empty {
-  display: none;
-}
-
 .chat-msg {
   max-width: 90%;
   padding: 9px 12px;
@@ -212,9 +241,10 @@
   font-style: italic;
 }
 
-.chat-handoff-card {
+.chat-handoff-card,
+.chat-contact-card {
   align-self: stretch;
-  padding: 12px;
+  padding: 11px 12px;
   border: 1px solid var(--line);
   border-left: 3px solid var(--copper);
   border-radius: 12px;
@@ -325,6 +355,7 @@
   gap: 6px;
   padding-top: 8px;
   border-top: 1px solid var(--line);
+  flex-shrink: 0;
 }
 
 .chat-composer {
@@ -393,26 +424,32 @@
   cursor: pointer;
 }
 
-.chat-hint {
-  color: var(--muted);
-  font-size: .71rem;
+.chat-footer-contact {
+  color: var(--green-dark);
+  font-size: .74rem;
+  font-weight: 740;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @media (max-width: 620px) {
-  .faq-widget {
+  .assistant-dock {
     right: 14px;
     bottom: 14px;
     max-width: calc(100vw - 20px);
   }
 
+  .chat-panel,
   .faq-panel {
     width: min(390px, calc(100vw - 20px));
-    max-height: min(80vh, 560px);
+    max-height: calc(100vh - 126px);
+    max-height: calc(100dvh - 126px);
     padding: 13px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .chat-launcher,
   .faq-toggle,
   .faq-question {
     transition: none !important;

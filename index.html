@@ -136,18 +136,6 @@
     .proof-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 42px; background: var(--line); border: 1px solid var(--line); }
     .proof-strip span { padding: 18px 16px; background: var(--paper); color: var(--muted); font-size: .86rem; }
     .fit-note { margin: 34px 0 0; padding: 22px 24px; border-left: 3px solid var(--copper); background: rgba(189,112,76,.08); color: var(--ink); }
-    .faq-widget { position: fixed; right: 25px; bottom: 25px; z-index: 8; }
-    .faq-toggle { border: 0; border-radius: 999px; padding: 13px 18px; background: var(--copper); color: var(--white); font: inherit; font-weight: 760; cursor: pointer; box-shadow: var(--shadow); }
-    .faq-panel { display: none; width: min(360px, calc(100vw - 28px)); margin-top: 10px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
-    .faq-panel.is-open { display: block; }
-    .faq-panel h2 { font-size: 1.35rem; margin-bottom: 6px; }
-    .faq-panel p { margin: 0 0 14px; color: var(--muted); font-size: .86rem; }
-    .faq-questions { display: grid; gap: 8px; }
-    .faq-question { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); text-align: left; font: inherit; font-size: .83rem; cursor: pointer; }
-    .faq-question:hover, .faq-question:focus-visible { border-color: var(--green); background: rgba(36,102,92,.06); }
-    .faq-answer { margin-top: 14px; padding: 12px; border-radius: 10px; background: var(--paper-deep); color: var(--ink); font-size: .86rem; }
-    .faq-answer[hidden] { display: none; }
-    .faq-contact { display: inline-block; margin-top: 10px; color: var(--green-dark); font-weight: 760; }
     .contact-box { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: end; padding: 48px; background: var(--green-dark); color: var(--white); border-radius: var(--radius); }
     .contact-box .section-kicker { color: #a4d2c5; }
     .contact-box h2 { max-width: 650px; margin-top: 16px; }
@@ -198,7 +186,6 @@
       .step:last-child { border-bottom: 0; }
       .contact-box { padding: 28px 23px; }
       .proof-strip { grid-template-columns: 1fr; }
-      .faq-widget { right: 14px; bottom: 14px; }
       .footer-row { flex-direction: column; gap: 6px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .path-panel:hover { transform: none; } .js [data-reveal] { opacity: 1; transform: none; } .scroll-rail { display: none; } }
@@ -237,33 +224,22 @@
     <section class="contact" id="contact" data-section="contact" data-label="08 / Connect"><div class="wrap"><div class="contact-box" data-reveal><div><div class="section-kicker">Start with the problem</div><h2>What is wasting time in your business every week?</h2><p>If a recurring process depends on copying information, chasing handoffs or assembling reports by hand, start by explaining how it works today. The first conversation is exploratory; it is not a commitment to build.</p></div><div class="contact-links"><a href="https://wa.me/351910058371" target="_blank" rel="noopener">WhatsApp: +351 910 058 371 ↗</a><a href="https://www.linkedin.com/company/ndlelasystems/" target="_blank" rel="noopener">Talk through a workflow on LinkedIn ↗</a><a href="https://www.instagram.com/ndlelasystems/" target="_blank" rel="noopener">Follow on Instagram ↗</a></div><div class="workflow-review"><div><h3>Start with a Workflow Review</h3><p>A focused first conversation about one process that is slowing the business down. No technical brief is required.</p></div><ul><li>Understand the current process and tools</li><li>Map the handoffs and friction</li><li>Identify the smallest valuable improvement</li><li>Agree the most useful next step, if there is one</li></ul></div><p class="contact-note">The review is exploratory. It does not commit either side to a build, timeline or specific technology.</p></div></div></section>
   </main>
   <footer><div class="wrap footer-row"><span>© 2026 Ndlela Systems</span><span>Build the way forward.</span></div></footer>
-  <aside class="faq-widget" data-client="ndlela" data-api-url="https://ndlela-chatbot-api.ndlela-systems.workers.dev/api/chat" aria-label="Makweru — Ndlela Systems assistant">
-    <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-panel">Questions?</button>
-    <div class="faq-panel" id="faq-panel" hidden>
+  <div class="assistant-dock" data-client="ndlela" data-api-url="https://ndlela-chatbot-api.ndlela-systems.workers.dev/api/chat" aria-label="Makweru and Quick Questions">
+    <section class="chat-panel" id="makweru-panel" aria-label="Makweru AI assistant" hidden>
       <div class="chat-header">
         <div>
           <div class="chat-title-row">
-            <h2>Ask Makweru</h2>
+            <h2>Makweru</h2>
             <span class="chat-lang-badge">EN / PT</span>
           </div>
-          <p class="chat-subtitle">Quick answers from approved Ndlela Systems info, or ask in English / Portuguese.</p>
+          <p class="chat-subtitle">Ndlela Systems assistant · English &amp; Portuguese</p>
         </div>
         <div class="chat-header-actions">
           <button class="chat-icon-btn chat-clear-btn" type="button" aria-label="Clear conversation">Clear</button>
-          <button class="chat-icon-btn chat-close-btn" type="button" aria-label="Close assistant">✕</button>
+          <button class="chat-icon-btn chat-close-btn" type="button" aria-label="Close Makweru chat">✕</button>
         </div>
       </div>
-      <div class="chat-scroll-area">
-        <div class="faq-questions" role="list">
-          <button class="faq-question" type="button" data-faq="what">What does Ndlela do?</button>
-          <button class="faq-question" type="button" data-faq="fit">Who is Ndlela for?</button>
-          <button class="faq-question" type="button" data-faq="work">Can you work with our existing tools?</button>
-          <button class="faq-question" type="button" data-faq="websites">Do you build websites and internal tools?</button>
-          <button class="faq-question" type="button" data-faq="process">What happens in the first conversation?</button>
-          <button class="faq-question" type="button" data-faq="ai">Do you work with AI?</button>
-          <button class="faq-question" type="button" data-faq="timing">How long does a project take?</button>
-        </div>
-        <div class="faq-answer" id="faq-answer" role="status" aria-live="polite" hidden></div>
+      <div class="chat-scroll-area" tabindex="0" aria-label="Makweru conversation">
         <div class="chat-thread" id="chat-thread" aria-live="polite"></div>
         <div class="chat-brief-drawer" id="chat-brief-drawer" hidden>
           <form class="chat-brief-form">
@@ -281,11 +257,38 @@
         </form>
         <div class="chat-footer-bar">
           <button class="chat-brief-toggle" type="button" aria-expanded="false" aria-controls="chat-brief-drawer">Start Workflow Review brief</button>
-          <span class="chat-hint">Grounded in site facts · EN / PT</span>
+          <a class="chat-footer-contact" href="https://wa.me/351910058371" target="_blank" rel="noopener noreferrer">Contact Shelton ↗</a>
         </div>
       </div>
+    </section>
+
+    <section class="faq-panel" id="faq-panel" aria-label="Quick FAQ answers" hidden>
+      <div class="faq-header">
+        <div>
+          <h2>Quick Questions</h2>
+          <p class="chat-subtitle">Instant answers from approved Ndlela Systems info.</p>
+        </div>
+        <button class="chat-icon-btn faq-close-btn" type="button" aria-label="Close FAQ">✕</button>
+      </div>
+      <div class="faq-scroll-area" tabindex="0" aria-label="Quick FAQ list">
+        <div class="faq-questions" role="list">
+          <button class="faq-question" type="button" data-faq="what">What does Ndlela do?</button>
+          <button class="faq-question" type="button" data-faq="fit">Who is Ndlela for?</button>
+          <button class="faq-question" type="button" data-faq="work">Can you work with our existing tools?</button>
+          <button class="faq-question" type="button" data-faq="websites">Do you build websites and internal tools?</button>
+          <button class="faq-question" type="button" data-faq="process">What happens in the first conversation?</button>
+          <button class="faq-question" type="button" data-faq="ai">Do you work with AI?</button>
+          <button class="faq-question" type="button" data-faq="timing">How long does a project take?</button>
+        </div>
+        <div class="faq-answer" id="faq-answer" role="status" aria-live="polite" hidden></div>
+      </div>
+    </section>
+
+    <div class="assistant-launchers">
+      <button class="chat-launcher" type="button" aria-expanded="false" aria-controls="makweru-panel">Ask Makweru</button>
+      <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-panel">Questions?</button>
     </div>
-  </aside>
+  </div>
   <script>
     document.documentElement.classList.add('js');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
